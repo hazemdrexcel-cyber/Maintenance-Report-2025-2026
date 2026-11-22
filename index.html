@@ -194,7 +194,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
 <header>
   <div class="ttl">
     <h1>لوحة تحليل <span>تكاليف الصيانة وقطع الغيار</span></h1>
-    <p>ربط أوامر العمل بالمنصرف من المخازن — مجموعة شركات السلومي</p>
+    <p>مصدر البيانات: <b style="color:#f4c542">اسكون</b> • إعداد التقرير: <b style="color:#f4c542">حازم حسن</b></p>
   </div>
   <div class="hdr-r">
     <div class="pill" id="rangePill"></div>
@@ -839,14 +839,14 @@ window.addEventListener('scroll',()=>{if(tipLock){tipLock.classList.remove('act'
 $('printBtn').onclick=()=>{const strip=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
   const hero=[...document.querySelectorAll('#pgExec .hero .kpi')].map(k=>`<div><div class="l">${k.querySelector('.l').textContent}</div><div class="v">${k.querySelector('.v').innerHTML}</div><div class="s">${k.querySelector('.s').textContent}</div></div>`).join('');
   const act=$('selInfo').textContent,per=`${mLabel(D.months[F.from])} — ${mLabel(D.months[F.to])}`;const LC={g:'#16a34a',a:'#d97706',r:'#dc2626',n:'#94a3b8'};
-  $('printPage').innerHTML=`<div class="ph"><div><h1>الملخص التنفيذي — تكاليف الصيانة وقطع الغيار</h1><div style="font-size:10.5px;color:#55657e">مجموعة شركات السلومي · أوامر العمل مربوطة بالمنصرف من المخازن</div></div><div class="pm">الفترة: <b>${per}</b><br>${act}<br>تاريخ الطباعة: ${new Date().toISOString().slice(0,10)}</div></div>
+  $('printPage').innerHTML=`<div class="ph"><div><h1>الملخص التنفيذي — تكاليف الصيانة وقطع الغيار</h1><div style="font-size:10.5px;color:#55657e">مصدر البيانات: <b>اسكون</b> • إعداد التقرير: <b>حازم حسن</b></div></div><div class="pm">الفترة: <b>${per}</b><br>${act}<br>تاريخ الطباعة: ${new Date().toISOString().slice(0,10)}</div></div>
   <h2>الأرقام الرئيسية</h2><div class="pk">${hero}</div>
   ${EX.news?`<h2>آخر شهر</h2><div style="font-size:10.5px">${EX.news}</div>`:''}
   <h2>الحكم على حالة الصيانة</h2><div class="vd">${EX.verd.map(v=>`<div style="--lc:${LC[v[3]]}">${v[0]}<b>${v[2]}</b></div>`).join('')}</div>
   <h2>أكبر 3 مخاطر بالريال</h2><table><tr><th>البند</th><th>المبلغ (ريال)</th><th>التوضيح</th></tr>${EX.risks.slice(0,3).map(r=>`<tr><td><b>${r[0]}</b></td><td style="white-space:nowrap"><b>${fmt(r[1])}</b></td><td>${strip(r[2])}</td></tr>`).join('')}</table>
   <h2>القرارات المطلوبة</h2><ol>${EX.recs.slice(0,3).map(r=>`<li>${r}</li>`).join('')}</ol>
   <h2>مقارنة الورشتين</h2><table><tr><th>المؤشر</th>${EX.scH.map(h=>`<th>${h}</th>`).join('')}</tr>${EX.sc.map(r=>`<tr><td><b>${r[0]}</b></td>${r.slice(1).map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table>
-  <div class="pf">المصدر: ملف أوامر العمل وملف المنصرف، مربوطان برقم الأمر. التكلفة = قطع الغيار المصروفة فقط (لا تشمل العمالة والورش الخارجية). معايير الألوان والدرجات افتراضية قابلة للتعديل. التفاصيل الكاملة في اللوحة التفاعلية.</div>`;
+  <div class="pf">مصدر البيانات: اسكون • إعداد التقرير: حازم حسن. التكلفة = قطع الغيار المصروفة فقط (لا تشمل العمالة والورش الخارجية). معايير الألوان والدرجات افتراضية قابلة للتعديل. التفاصيل الكاملة في اللوحة التفاعلية.</div>`;
   setTimeout(()=>window.print(),100)};
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
 syncUI();render();
