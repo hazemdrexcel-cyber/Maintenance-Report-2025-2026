@@ -123,6 +123,7 @@ td.n{white-space:nowrap;direction:ltr;text-align:right;font-variant-numeric:tabu
 .mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
 .mhead h3{font-size:16px;font-weight:800}
 #mdl th{white-space:normal;max-width:130px;line-height:1.45;vertical-align:bottom}#mdl td{max-width:260px}#mdl td.n{white-space:nowrap}.mbtns{display:flex;gap:8px;flex:none}
+.mbtns .btn{background:#eef4fb;border:1px solid #cfd9e7;color:#1e3a8a;border-radius:10px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer}.mbtns .btn:hover{border-color:var(--teal);color:var(--teal);background:#eef4fb}.mbtns #mCsv{background:#107c41;border-color:#107c41;color:#fff}.mbtns #mCsv:hover{background:#0b5f31;border-color:#0b5f31;color:#fff}
 .vbtn{background:#eef4fb;border:1px solid #cfd9e7;color:#1e3a8a;border-radius:8px;padding:4px 10px;font-size:11.5px;font-weight:700;white-space:nowrap}
 .vbtn:hover{border-color:var(--teal);color:var(--teal)}
 .recs li .vbtn{margin-top:6px}
@@ -248,7 +249,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
 
 <div class="sec">جودة الصيانة واعتمادية المعدات</div>
 <div class="grid">
-  <div class="card c6" style="--c:var(--rose)"><h3>إعادة صرف نفس القطعة لنفس المعدة خلال 90 يوماً</h3><div class="sub" id="rrSub"></div><canvas id="chRR" height="290"></canvas></div>
+  <div class="card c6" style="--c:var(--rose)"><h3>إعادة صرف نفس القطعة لنفس المعدة خلال 90 يوماً</h3><div class="tbar" style="margin:3px 0 6px"><div class="sub" id="rrSub" style="margin:0"></div><button class="vbtn" onclick="OPEN.rr()">⬇ تصدير Excel</button></div><canvas id="chRR" height="290"></canvas></div>
   <div class="card c6" style="--c:var(--amber)"><h3>أقل المعدات اعتمادية — متوسط الأيام بين عطلين</h3><div class="tbar" style="margin:3px 0 6px"><div class="sub" style="margin:0">أقل 10 معدات (5 أعطال فأكثر) — كلما قل الرقم كانت الأعطال أكثر تقارباً</div><button class="vbtn" onclick="OPEN.mtbf()">⬇ تصدير Excel</button></div><canvas id="chMTBF" height="290"></canvas></div>
 </div>
 <div class="grid">
@@ -333,7 +334,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
 
 <div class="sec">تحليل التكلفة <span>التركّز والمقارنة السنوية</span></div>
 <div class="grid">
-  <div class="card c6" style="--c:var(--red)"><h3>تحليل باريتو للمعدات</h3><div class="sub" id="parSub"></div><canvas id="chPar" height="280"></canvas></div>
+  <div class="card c6" style="--c:var(--red)"><h3>تحليل باريتو للمعدات</h3><div class="tbar" style="margin:3px 0 6px"><div class="sub" id="parSub" style="margin:0"></div><div style="display:flex;gap:6px"><button class="vbtn" id="parBtn" onclick="OPEN.par(true)">⬇ تصدير معدات الـ 80%</button><button class="vbtn" onclick="OPEN.par(false)">الكل</button></div></div><canvas id="chPar" height="280"></canvas></div>
   <div class="card c6" style="--c:var(--blue)"><h3>مقارنة 2025 مع 2026</h3><div class="sub" id="yoySub"></div><canvas id="chYoy" height="280"></canvas><div class="legend"><span><i style="background:#2563eb"></i>2025</span><span><i style="background:#0d9488"></i>2026</span></div></div>
   
 </div>
@@ -586,7 +587,7 @@ function render(){
 
   // pareto
   const pv=eqs.map(o=>o.e[4]).filter(v=>v>0).sort((p,q)=>q-p);const pr2=pareto($('chPar'),pv);
-  $('parSub').textContent=pr2?`${fmt(pr2.k)} معدة فقط من ${fmt(pv.length)} (${pct(pr2.share)}) تستهلك 80% من تكلفة المنصرف`:'';
+  $('parSub').textContent=pr2?`${fmt(pr2.k)} معدة فقط من ${fmt(pv.length)} (${pct(pr2.share)}) تستهلك 80% من تكلفة المنصرف`:'';$('parBtn').textContent=pr2?`⬇ تصدير الـ ${fmt(pr2.k)} معدة`:'⬇ تصدير';$('parBtn').disabled=!pr2;
   // yoy
   const selO=o=>(F.ws<0||o[1]===F.ws)&&(F.tp<0||o[2]===F.tp)&&(F.st<0||o[3]===F.st)&&(F.cu<0||o[4]===F.cu)&&(F.et<0||o[5]===F.et);
   const mAll=new Float64Array(D.months.length);D.o.forEach((o,i)=>{if(selO(o))mAll[o[0]]+=oCost[i]});
@@ -612,6 +613,15 @@ function render(){
   let occ=0,rpt=0,rptCost=0;const rEq={},rIt={},rItC={},wsRep=D.ws.map(()=>[0,0]),occO=[],repO=[];
   for(const k in pk){const [e,it]=k.split('|');const ds=[...pk[k]].map(([i,c])=>[dt(D.o[i][9]),i,c]).sort((a,b)=>a[0]-b[0]);occ+=ds.length;ds.forEach(d=>{wsRep[D.o[d[1]][1]][1]++;occO.push(d[1])});for(let j=1;j<ds.length;j++)if(ds[j][0]-ds[j-1][0]<=90*DAY){rpt++;rptCost+=ds[j][2];rItC[k]=(rItC[k]||0)+ds[j][2];wsRep[D.o[ds[j][1]][1]][0]++;repO.push(ds[j][1]);rEq[e]=(rEq[e]||0)+1;rIt[k]=(rIt[k]||0)+1}}
   const rr=rpt/Math.max(1,occ);
+  OPEN.rr=()=>{const top=Object.entries(rEq).sort((p,q)=>q[1]-p[1]).slice(0,10).map(x=>x[0]);const tset=new Set(top);
+    const qm={};for(const l of D.l){if(!mask[l[0]]||!tset.has(String(D.o[l[0]][6])))continue;const q=l[0]+'|'+l[1];qm[q]=(qm[q]||0)+l[2]}
+    const rows=[];top.forEach((e,ri)=>{const its=[];for(const k in pk){const p=k.indexOf('|');if(k.slice(0,p)!==e)continue;const it=k.slice(p+1);
+      const ds=[...pk[k]].map(([i,c])=>[dt(D.o[i][9]),i,c]).sort((a,b)=>a[0]-b[0]);const ev=[];
+      for(let j=1;j<ds.length;j++){const g=Math.round((ds[j][0]-ds[j-1][0])/DAY);if(g<=90){const a=ds[j-1][1],b=ds[j][1];ev.push([ri+1,D.eq[e][0],D.et[D.eq[e][1]],D.it[it][0],D.gr[D.it[it][1]],D.o[a][7],D.o[a][9],+(qm[a+'|'+it]||0).toFixed(2),D.o[b][7],D.o[b][9],+(qm[b+'|'+it]||0).toFixed(2),g,Math.round(ds[j][2])])}}
+      if(ev.length)its.push(ev)}
+      its.sort((p,q)=>q.length-p.length).forEach(ev=>rows.push(...ev))});
+    const tot=rows.reduce((a,r)=>a+r[12],0);
+    openModal('إعادة صرف نفس القطعة لنفس المعدة خلال 90 يوماً — المعدات الظاهرة في الرسم',`${fmt(top.length)} معدات · ${fmt(rows.length)} مرة إعادة صرف · قيمتها ${fmt(tot)} ريال — داخل الفلتر الحالي`,['ترتيب المعدة','المعدة','النوع','القطعة','المجموعة','رقم الأمر السابق','تاريخ الأمر السابق','الكمية السابقة','رقم أمر إعادة الصرف','تاريخ أمر إعادة الصرف','الكمية','الأيام بين الصرفين','تكلفة إعادة الصرف'],rows,[0,5,6,7,8,9,10,11,12])};
   // decision matrix
   const cand=eqs.filter(o=>o.e[1]>0);const q75=(a)=>{const s=a.slice().sort((p,q)=>p-q);return s[Math.floor(s.length*.9)]||0};
   const tX=Math.max(3,q75(cand.map(o=>o.e[1]))),tY=q75(cand.map(o=>o.e[4]));
@@ -735,7 +745,7 @@ function render(){
   const avL=V.find(v=>v[0]==='جاهزية المعدات');$('h4').style.color=avL?COL[avL[3]]:'';
   const W=slowI>=0?{i:wsShow[slowI]}:null;
   OPEN.slow=W?REC[R.findIndex(r=>r.includes('دراسة أسباب بطء ورشة'))]:null;
-  OPEN.par=()=>{let c=0;const rows=eqs.slice().sort((a,b)=>b.e[4]-a.e[4]).filter(o=>o.e[4]>0).map(({k,e},j)=>{c+=e[4];return[j+1,D.eq[k][0],D.et[D.eq[k][1]],e[0],Math.round(e[4]),pct(e[4]/cost),pct(c/cost)]});openModal('المعدات مرتبة بالتكلفة (تحليل باريتو)',`${fmt(rows.length)} معدة — أول ${pr2?fmt(pr2.k):'—'} معدة تمثل 80% من التكلفة`,['#','المعدة','النوع','عدد الأوامر','التكلفة','نسبة من الإجمالي','النسبة التراكمية'],rows,[0,3,4])};
+  OPEN.par=(only80)=>{let c=0;const tot=eqs.reduce((a,o)=>a+Math.max(0,o.e[4]),0)||1;let rows=eqs.slice().sort((a,b)=>b.e[4]-a.e[4]).filter(o=>o.e[4]>0).map(({k,e},j)=>{c+=e[4];return[j+1,D.eq[k][0],D.et[D.eq[k][1]],e[0],Math.round(e[4]),pct(e[4]/tot)]});const all=rows.length;if(only80&&pr2)rows=rows.slice(0,pr2.k);openModal(only80?`المعدات التي تستهلك 80% من التكلفة (تحليل باريتو)`:'المعدات مرتبة بالتكلفة (تحليل باريتو)',only80?`${fmt(rows.length)} معدة من ${fmt(all)} — داخل الفلتر الحالي`:`${fmt(rows.length)} معدة — أول ${pr2?fmt(pr2.k):'—'} معدة تمثل 80% من التكلفة`,['#','المعدة','النوع','عدد الأوامر','التكلفة','نسبة من الإجمالي'],rows,[0,3,4])};
   const lateLvl=lateCl.length===0?'g':lateCl.length<=50?'a':'r';
   const ACT={
    'إعادة صرف نفس القطعة':[`قيمة القطع التي أُعيد صرفها <b>${fmt(rptCost)} ريال</b> (${fmt(rpt)} مرة).`,rpt?`${rr>.1?'فحص أسباب':'متابعة'} إعادة الصرف، والبداية بالمعدات الأعلى: ${Object.entries(rEq).sort((p,q)=>q[1]-p[1]).slice(0,2).map(([e])=>D.eq[e][0]).join('، ')}، ومراجعة جودة القطع ومورديها.`:'',rpt?'rep':null],
