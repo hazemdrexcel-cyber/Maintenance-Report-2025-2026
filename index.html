@@ -26,6 +26,7 @@ button{font-family:inherit;cursor:pointer}
 .filters{display:grid;grid-template-columns:repeat(8,1fr) auto;gap:10px;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:18px;position:sticky;top:8px;z-index:20;box-shadow:0 6px 18px #2f485814}
 .f label{display:block;font-size:11.5px;color:var(--mut);margin-bottom:5px;font-weight:600}
 .f select{width:100%;background:#ffffff;color:var(--tx);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none}
+.ss{position:relative}.ssBtn{width:100%;text-align:right;background:#fff;color:var(--tx);border:1px solid var(--line);border-radius:9px;padding:8px 10px 8px 28px;font-family:inherit;font-size:13px;cursor:pointer;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ssBtn::after{content:'';position:absolute;left:11px;top:50%;width:6px;height:6px;border-left:1.6px solid #1e2b45;border-bottom:1.6px solid #1e2b45;transform:translateY(-70%) rotate(-45deg)}.ss.open .ssBtn,.ssBtn:focus{border-color:var(--teal);outline:none}.ssP{display:none;position:absolute;top:calc(100% + 4px);right:0;min-width:100%;width:280px;max-width:90vw;background:#fff;border:1px solid #cfd9e7;border-radius:10px;box-shadow:0 14px 34px #2f485833;z-index:60;padding:8px}.ss.open .ssP{display:block}.ssP input{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-family:inherit;font-size:13px;outline:none;margin-bottom:6px}.ssP input:focus{border-color:var(--teal)}.ssL{max-height:280px;overflow:auto}.ssI{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;font-size:13px;cursor:pointer;color:var(--tx)}.ssI:hover,.ssI.hl{background:#eef4fb}.ssI.on{background:#e6f3f1;color:#0f766e;font-weight:700}.ssI .c{font-size:11px;color:var(--mut);background:#f1f4f8;border-radius:10px;padding:1px 7px;flex:none}.ssE{padding:10px;font-size:12.5px;color:var(--mut);text-align:center}
 .f select:focus{border-color:var(--teal)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end}
 .kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:16px}
@@ -93,7 +94,8 @@ td.n{white-space:nowrap;direction:ltr;text-align:right;font-variant-numeric:tabu
 .ii{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;border:1px solid #c3cfdf;background:#ffffff;color:#5b6b84;font:italic 700 11px/1 Georgia,'Times New Roman',serif;cursor:help;flex:none;user-select:none;transition:.15s}
 .ii:hover,.ii.act{border-color:var(--teal);color:var(--teal);box-shadow:0 0 8px #0d948866}
 .kpi>.ii{position:absolute;top:9px;left:10px;z-index:2}
-.card h3 .ii{margin-inline-start:auto}
+.card h3 .xbtn{margin-inline-start:auto;font-size:11px;padding:2px 9px;font-weight:700}h3 .xbtn+.ii{margin-inline-start:6px}
+h3 .ii{margin-inline-start:auto}
 #tip .it{color:var(--teal);font-weight:800;display:block;margin-bottom:3px}
 #tip .ic{display:block;margin-top:5px;padding-top:5px;border-top:1px dashed #cfd9e7;color:#3c4a60}
 .vc .ac{margin-top:7px;padding-top:7px;border-top:1px dashed #dde4ee;font-size:11.5px;line-height:1.65;color:#1e2b45}.vc .ac b.k{color:var(--teal)}
@@ -218,7 +220,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="f"><label>نوع الأمر</label><select id="fTp"></select></div>
   <div class="f"><label>حالة الأمر</label><select id="fSt"></select></div>
   <div class="f"><label>الشركة المستفيدة</label><select id="fCu"></select></div>
-  <div class="f"><label>نوع المعدة</label><select id="fEt"></select></div>
+  <div class="f"><label>نوع المعدة</label><select id="fEt" style="display:none"></select><div class="ss" id="ssEt"><button type="button" class="ssBtn" id="ssEtBtn"><span id="ssEtTxt">كل الأنواع</span></button><div class="ssP" id="ssEtP"><input id="ssEtQ" placeholder="ابحث عن نوع المعدة…" autocomplete="off"><div class="ssL" id="ssEtL"></div></div></div></div>
   <div class="chips"><span class="pill" id="selInfo">كل البيانات</span></div>
 </div>
 
@@ -279,7 +281,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="kpi" style="--c:var(--grn)"><div class="l">المعدات التي دخلت الصيانة</div><div class="v" id="k5"></div><div class="s" id="k5s"></div></div>
   <div class="kpi" style="--c:var(--rose)"><div class="l">نسبة تكلفة الوقائية</div><div class="v" id="k6"></div><div class="s" id="k6s"></div></div>
   <div class="kpi" style="--c:var(--amber)"><div class="l">المستهلكات (زيوت وفلاتر)</div><div class="v" id="k7"></div><div class="s" id="k7s"></div></div>
-  <div class="kpi" style="--c:var(--red)"><div class="l">أوامر بدون منصرف</div><div class="v" id="k8"></div><div class="s" id="k8s"></div></div>
+  <div class="kpi" style="--c:var(--red)"><div class="l">أوامر بدون منصرف</div><div class="v" id="k8"></div><div class="s" id="k8s"></div><button class="vbtn" style="margin-top:6px" onclick="XC.k8()">⬇ تصدير Excel</button></div>
 </div>
 
 <div class="grid">
@@ -348,6 +350,9 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   
 </div>
 
+<div class="sec">التكلفة حسب نوع المعدة <span>كل أنواع المعدات داخل الفلاتر — من الأقل تكلفة (يسار) إلى الأعلى (يمين)، واضغط على أي نوع لتطبيقه كفلتر</span></div>
+<div class="card" style="--c:var(--grn);margin-bottom:14px"><h3>تكلفة كل أنواع المعدات</h3><div class="sub" id="etAllSub"></div><div dir="ltr" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><canvas id="chEtAll" height="440" style="min-width:900px;display:block"></canvas></div></div>
+
 <div class="sec">التفاصيل</div>
 <div class="grid">
   <div class="card c12" style="--c:var(--grn)">
@@ -394,7 +399,7 @@ $('fYr').innerHTML='<option value="-1">كل السنوات</option>'+YRS.map((y,
 function syncYr(){const a=D.months[F.from],b=D.months[F.to];if(F.from===0&&F.to===D.months.length-1){$('fYr').value='-1';return}const y=a.slice(0,4);const yi=YRS.indexOf(y);const f=D.months.findIndex(m=>m.startsWith(y)),l=D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y));$('fYr').value=(b.startsWith(y)&&F.from===f&&F.to===l)?yi:'-2'}
 $('fYr').addEventListener('change',e=>{const v=+e.target.value;if(v===-1){F.from=0;F.to=D.months.length-1}else if(v>=0){const y=YRS[v];F.from=D.months.findIndex(m=>m.startsWith(y));F.to=D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y))}syncUI();render()});
 const map={fFrom:'from',fTo:'to',fWs:'ws',fTp:'tp',fSt:'st',fCu:'cu',fEt:'et'};
-function syncUI(){for(const id in map)$(id).value=F[map[id]];syncYr()}
+function syncUI(){for(const id in map)$(id).value=F[map[id]];syncYr();if(typeof ssSync==='function')ssSync()}
 for(const id in map)$(id).addEventListener('change',e=>{F[map[id]]=+e.target.value;if(F.from>F.to){if(id==='fFrom')F.to=F.from;else F.from=F.to}syncUI();render()});
 $('resetBtn').onclick=()=>{Object.assign(F,{from:0,to:D.months.length-1,ws:-1,si:-1,tp:-1,st:-1,cu:-1,et:-1});syncUI();render()};
 function setF(k,v){F[k]=(F[k]===v?-1:v);syncUI();render()}
@@ -498,7 +503,8 @@ function scatter(cv,pts,tx,ty){const{x,w,h}=setup(cv);bindHits(cv);if(!pts.lengt
 let MDL=null;
 function openModal(title,sub,head,rows,num){MDL={title,head,rows};$('mTitle').textContent=title;$('mSub').textContent=sub||(fmt(rows.length)+' سجل');
   $('mHead').innerHTML='<tr>'+head.map(h=>`<th>${h}</th>`).join('')+'</tr>';
-  $('mBody').innerHTML=rows.length?rows.map(r=>'<tr>'+r.map((v,j)=>`<td class="${(num||[]).includes(j)?'n':''}">${typeof v==='number'?(Number.isInteger(v)?fmt(v):v.toLocaleString('en-US',{maximumFractionDigits:2})):(v??'')}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${head.length}" class="empty">لا توجد بيانات</td></tr>`;
+  const LIM=1500,shown=rows.length>LIM?rows.slice(0,LIM):rows;if(rows.length>LIM)$('mSub').textContent+=` · يعرض أول ${fmt(LIM)} سطر هنا، وملف Excel فيه كل السطور`;
+  $('mBody').innerHTML=rows.length?shown.map(r=>'<tr>'+r.map((v,j)=>`<td class="${(num||[]).includes(j)?'n':''}">${typeof v==='number'?(Number.isInteger(v)?fmt(v):v.toLocaleString('en-US',{maximumFractionDigits:2})):(v??'')}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${head.length}" class="empty">لا توجد بيانات</td></tr>`;
   $('mdl').classList.add('on')}
 $('mClose').onclick=()=>$('mdl').classList.remove('on');$('mdl').addEventListener('click',e=>{if(e.target.id==='mdl')$('mdl').classList.remove('on')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$('mdl').classList.remove('on')});
@@ -506,6 +512,18 @@ function csvDL(title,head,rows){const q=v=>{v=((v??'')+'').replace(/[\u2066-\u20
   const csv='﻿'+[head,...rows].map(r=>r.map(q).join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=title.replace(/[\\/:*?"<>|]/g,'')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 $('mCsv').onclick=()=>{if(MDL)csvDL(MDL.title,MDL.head,MDL.rows)};
 const XP={};
+const XC={};
+const ORH=['المعدة','نوع المعدة','رقم الأمر','تاريخ الأمر','تاريخ الانتهاء','الورشة','نوع الأمر','حالة الأمر','الشركة المستفيدة','تكلفة المنصرف'];
+const oRow=i=>{const o=D.o[i];return[D.eq[o[6]][0],D.et[o[5]],o[7],o[9],o[8]||'—',D.ws[o[1]],TP[o[2]],STN[o[3]?1:0],D.cu[o[4]],Math.round(oCost[i])]};
+function xO(title,pred,extra,sortFn){const ids=[];for(let i=0;i<NO;i++)if(CUR_MASK[i]&&pred(i))ids.push(i);if(sortFn)ids.sort(sortFn);
+  const rows=ids.map(i=>[...extra.map(x=>x[1](i)),...oRow(i)]);const tot=ids.reduce((a,i)=>a+oCost[i],0),ne=extra.length;
+  openModal(title,`${fmt(rows.length)} أمر · إجمالي التكلفة ${fmt(tot)} ريال — داخل الفلتر الحالي`,[...extra.map(x=>x[0]),...ORH],rows,[...extra.map((x,j)=>j),ne+ORH.length-1])}
+const LNH=['الصنف','المجموعة','التصنيف','المعدة','نوع المعدة','رقم الأمر','تاريخ الأمر','الورشة','نوع الأمر','الكمية','التكلفة'];
+const lRow=l=>{const o=D.o[l[0]],it=D.it[l[1]];return[it[0],D.gr[it[1]],it[2]?'مستهلكات':'قطع غيار',D.eq[o[6]][0],D.et[o[5]],o[7],o[9],D.ws[o[1]],TP[o[2]],+l[2].toFixed(2),Math.round(l[3])]};
+function xL(title,pred,extra,sortFn){const ls=D.l.filter(l=>CUR_MASK[l[0]]&&pred(l));if(sortFn)ls.sort(sortFn);
+  const rows=ls.map(l=>[...extra.map(x=>x[1](l)),...lRow(l)]);const tot=ls.reduce((a,l)=>a+l[3],0),ne=extra.length;
+  openModal(title,`${fmt(rows.length)} سطر صرف · إجمالي ${fmt(tot)} ريال — داخل الفلتر الحالي`,[...extra.map(x=>x[0]),...LNH],rows,[...extra.map((x,j)=>j),ne+9,ne+10])}
+
 let CUR_MASK=null;
 function eqParts(k){const m={};for(const l of D.l){if(!CUR_MASK[l[0]]||D.o[l[0]][6]!==k)continue;const r=m[l[1]]||(m[l[1]]=[0,0,new Set(),'']);r[0]+=l[2];r[1]+=l[3];r[2].add(l[0]);const d=D.o[l[0]][9];if(d>r[3])r[3]=d}
   return Object.entries(m).sort((a,b)=>b[1][1]-a[1][1]).map(([it,r])=>[D.it[it][0],D.gr[D.it[it][1]],D.it[it][2]?'مستهلكات':'قطع غيار',r[2].size,+r[0].toFixed(2),Math.round(r[1]),r[3]])}
@@ -526,7 +544,27 @@ for(const l of D.l){oCost[l[0]]+=l[3];oLines[l[0]]++}
 function sel(o){return o[0]>=F.from&&o[0]<=F.to&&(F.ws<0||o[1]===F.ws)&&(F.tp<0||o[2]===F.tp)&&(F.st<0||o[3]===F.st)&&(F.cu<0||o[4]===F.cu)&&(F.et<0||o[5]===F.et)}
 // ---------- sankey: cost -> year -> workshop -> order type -> parts/consumables ----------
 const oCons=new Float64Array(NO);for(const l of D.l)if(D.it[l[1]][2])oCons[l[0]]+=l[3];
-let SKM='full';
+let SKM='full';let SK_T=null;XC.k8=()=>{const dt=v=>new Date(v).getTime(),DAY=864e5,R=dt(D.ref);xO('أوامر بدون منصرف — لم يُصرف عليها أي صنف من المخزن',i=>!oLines[i],[['عمر الأمر (يوم)',i=>{const o=D.o[i];return Math.max(0,Math.round(((o[3]&&o[8]?dt(o[8]):R)-dt(o[9]))/DAY))}]],(a,b)=>(D.o[a][3]-D.o[b][3])||(D.o[a][9]<D.o[b][9]?-1:1));let op=0,cl=0;for(let i=0;i<NO;i++)if(CUR_MASK[i]&&!oLines[i])D.o[i][3]?cl++:op++;$('mSub').textContent=`${fmt(op+cl)} أمر · ${fmt(op)} تحت التشغيل · ${fmt(cl)} منتهي — مرتبة: المفتوح أولاً من الأقدم — داخل الفلتر الحالي`};
+
+XC.chSk=()=>{if(!SK_T)return;const T=SK_T.T,rows=[];for(const y of ['2025','2026']){const Y=T.k[y];if(!Y)continue;for(const w of [0,1]){const W=Y.k[w];if(!W)continue;for(const tp of [0,1]){const P=W.k[tp];if(!P)continue;const p=P.k.p?P.k.p.v:0,c=P.k.c?P.k.c.v:0;rows.push([y,D.ws[w],tp?'وقائية':'أعطال PMV',Math.round(p),Math.round(c),Math.round(P.v),pct(P.v/W.v),pct(P.v/T.v),P.n])}}}
+  openModal('مسار تدفق التكلفة — تفاصيل المسارات',`إجمالي ${fmt(T.v)} ريال — داخل الفلتر الحالي${SK_T.lm<12?' · بيانات 2026 حتى '+MN[SK_T.lm-1]:''}`,['السنة','الورشة','نوع الصيانة','قطع غيار','مستهلكات','الإجمالي','النسبة من الورشة','النسبة من الإجمالي','عدد الأوامر'],rows,[3,4,5,8])};
+// ---------- all equipment types, ascending ----------
+function drawEtAll(){const cv=$('chEtAll');if(!cv||!cv.parentElement.clientWidth)return;
+  const f=F.et;F.et=-1;const c=new Float64Array(D.et.length),n=new Uint32Array(D.et.length),eq=D.et.map(()=>new Set());D.o.forEach((o,i)=>{if(!sel(o))return;c[o[5]]+=oCost[i];n[o[5]]++;eq[o[5]].add(o[6])});F.et=f;
+  const it=D.et.map((l,i)=>({i,l,v:c[i],n:n[i],e:eq[i].size})).filter(o=>o.n>0).sort((a,b)=>a.v-b.v);const tot=it.reduce((a,o)=>a+o.v,0);cv.style.minWidth=Math.max(900,it.length*30)+'px';const{x,w,h}=setup(cv);bindHits(cv);
+  $('etAllSub').textContent=`${fmt(it.length)} نوع معدة داخل الفلاتر الحالية (بدون فلتر نوع المعدة) · إجمالي ${fmt(tot)} ريال · من الأقل تكلفة إلى الأعلى`;
+  XC.chEtAll=()=>openModal('تكلفة كل أنواع المعدات',`${fmt(it.length)} نوع · إجمالي ${fmt(tot)} ريال — داخل الفلاتر الحالية`,['#','نوع المعدة','عدد المعدات','عدد الأوامر','التكلفة','متوسط تكلفة المعدة','النسبة من الإجمالي'],it.slice().reverse().map((o,j)=>[j+1,o.l,o.e,o.n,Math.round(o.v),Math.round(o.v/Math.max(1,o.e)),pct(o.v/Math.max(1,tot))]),[0,2,3,4,5]);
+  if(!it.length){x.fillStyle=C.mut;x.textAlign='center';x.fillText('لا توجد بيانات',w/2,h/2);return}
+  const L=12,R=12,T=40,B=130,PW=w-L-R,PH=h-T-B,k=it.length,sw=PW/k,bw=Math.max(4,Math.min(40,sw*.68)),mx=it[k-1].v||1;
+  x.strokeStyle='#e6ebf2';x.lineWidth=1;x.beginPath();x.moveTo(L,T+PH+.5);x.lineTo(w-R,T+PH+.5);x.stroke();
+  cv._lb=[];
+  it.forEach((o,j)=>{const cx=L+sw*j+sw/2,bh=Math.max(1.5,o.v/mx*PH),on=o.i===F.et,col=on?'#f08a24':C.grn;
+    x.fillStyle=grad(x,cx-bw/2,T+PH-bh,bw,bh,col);rr(x,cx-bw/2,T+PH-bh,bw,bh,Math.min(5,bw/3));
+    x.save();x.fillStyle=on?'#c2410c':'#0f1d33';x.font='700 12px Cairo,Segoe UI,Tahoma';x.textAlign='center';x.textBaseline='bottom';const lv=fmtK(o.v),lw=x.measureText(lv).width;let ty=T+PH-bh-5;for(let g=0;g<4;g++){const hit=(cv._lb||[]).some(b=>Math.abs(b.x-cx)<(b.w+lw)/2+3&&Math.abs(b.y-ty)<14);if(!hit)break;ty-=15}(cv._lb||(cv._lb=[])).push({x:cx,y:ty,w:lw});x.lineWidth=3;x.strokeStyle='#ffffff';x.strokeText(lv,cx,ty);x.fillText(lv,cx,ty);x.restore();
+    x.save();x.translate(cx,T+PH+8);x.rotate(-Math.PI/4);x.textAlign='right';x.textBaseline='middle';x.direction='rtl';x.fillStyle=on?'#c2410c':'#3c4a60';x.font=`${on?'700':'600'} 12px Cairo,Segoe UI,Tahoma`;x.fillText(trunc(x,o.l,150),0,0);x.restore();
+    cv._hits.push({X:cx-sw/2,Y:T,W:sw,H:PH+B,tip:`<b>${o.l}</b><br>التكلفة: <b>${fmt(o.v)}</b> ريال (${pct(o.v/Math.max(1,tot))})<br>عدد المعدات: ${fmt(o.e)} · عدد الأوامر: ${fmt(o.n)}<br>متوسط تكلفة المعدة: ${fmt(o.v/Math.max(1,o.e))} ريال<br><span style="color:#0d9488">${on?'اضغط لإلغاء الفلتر':'اضغط لتطبيقه كفلتر'}</span>`,click:()=>{F.et=on?-1:o.i;syncUI();render()}})});
+  x.textBaseline='middle'}
+
 function skMode(m){SKM=m;document.querySelectorAll('#skBtns .vbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));drawSankey()}
 function skYr(y){return[D.months.findIndex(m=>m.startsWith(y)),D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y))]}
 function skActive(y,ws,tp){const[a,b]=skYr(y);return F.from===a&&F.to===b&&F.ws===(ws==null?-1:ws)&&F.tp===(tp==null?-1:tp)}
@@ -540,6 +578,7 @@ function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!cv
   const add=(path,c,cn)=>{let nd=T;nd.v+=c;nd.n+=cn;for(const p of path){nd=nd.k[p]||(nd.k[p]={v:0,n:0,k:{}});nd.v+=c;nd.n+=cn}};
   D.o.forEach((o,i)=>{if(!sel(o))return;const m=D.months[o[0]],y=m.slice(0,4);if(!yrs.includes(y))return;if(same&&+m.slice(5)>lm)return;const c=oCost[i],cs=oCons[i];
     add([y,o[1],o[2]],0,1);add([y,o[1],o[2],'p'],c-cs,0);add([y,o[1],o[2],'c'],cs,0)});
+  if(!noDom)SK_T={T,same,lm};
   if(T.v<=0){x.fillStyle=C.mut;x.textAlign='center';x.fillText('لا توجد بيانات',w/2,h/2);if(!noDom){$('skNote').innerHTML='';$('skNote').style.display='none'}return[]}
   const WSC=['#db2777','#2563eb'],TPC=[C.red,C.grn],CTC={p:C.vio,c:C.amber},YC={'2025':'#475569','2026':'#0f766e'};
   const nm=(lvl,key,path)=>lvl===1?key+(same?` (${MN[0]} – ${MN[lm-1]})`:key==='2026'&&lm<12?` (حتى ${MN[lm-1]})`:''):lvl===2?D.ws[key]:lvl===3?(key==0?'أعطال PMV':'وقائية'):(key==='p'?'قطع غيار':'مستهلكات');
@@ -597,6 +636,7 @@ function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!cv
 
 let eqRows=[],eqSort={k:6,d:-1};
 function render(){
+  if(F.et>=0&&typeof etCounts==='function'&&!etCounts()[F.et]){F.et=-1;syncUI()}
   const mask=new Uint8Array(NO);CUR_MASK=mask;let nO=0,nOpen=0,nNo=0,cost=0,costT=[0,0],nT=[0,0];
   const nm=D.months.length,mA=new Float64Array(nm),mB=new Float64Array(nm),mN=new Uint32Array(nm);
   const wsC=D.ws.map(()=>[0,0]),cuC=new Float64Array(D.cu.length),etC=new Float64Array(D.et.length);
@@ -618,24 +658,36 @@ function render(){
   // charts
   const ms=[],a=[],b=[],n=[];for(let i=F.from;i<=F.to;i++){ms.push(D.months[i]);a.push(mA[i]);b.push(mB[i]);n.push(mN[i])}
   monthly($('chMonth'),ms,a,b,n);
+  XC.chMonth=()=>xO('أوامر العمل حسب الشهر — كل الأوامر داخل الفلتر',()=>true,[['الشهر',i=>mLabel(D.months[D.o[i][0]])]],(a,b)=>D.o[a][9]<D.o[b][9]?-1:1);
   donut($('chType'),[{l:'أوامر PMV',v:costT[0],c:C.teal,click:()=>setF('tp',0)},{l:'صيانة وقائية',v:costT[1],c:C.amber,click:()=>setF('tp',1)}]);
+  XC.chType=()=>xO('توزيع التكلفة حسب نوع الأمر — كل الأوامر',()=>true,[],(a,b)=>D.o[a][2]-D.o[b][2]||oCost[b]-oCost[a]);
   const top=(arr,lab,k,nn=10)=>Array.from(arr).map((v,i)=>({v,i})).filter(o=>o.v>0).sort((p,q)=>q.v-p.v).slice(0,nn);
   hbar($('chCu'),top(cuC).map(o=>({l:D.cu[o.i],k:o.i,v:[o.v],tip:`<b>${D.cu[o.i]}</b><br>${fmt(o.v)} ريال<br>${pct(o.v/cost)}`,click:()=>setF('cu',o.i)})),{multi:1,active:F.cu,lw:200});
+  {const ids=top(cuC).map(o=>o.i);XC.chCu=()=>xO('التكلفة حسب الشركة المستفيدة — الشركات الظاهرة في الرسم',i=>ids.includes(D.o[i][4]),[['ترتيب الشركة',i=>ids.indexOf(D.o[i][4])+1]],(a,b)=>ids.indexOf(D.o[a][4])-ids.indexOf(D.o[b][4])||oCost[b]-oCost[a])}
   hbar($('chEt'),top(etC,0,0,12).map(o=>({l:D.et[o.i],k:o.i,v:[o.v],tip:`<b>${D.et[o.i]}</b><br>${fmt(o.v)} ريال<br>${pct(o.v/cost)}`,click:()=>setF('et',o.i)})),{color:C.grn,active:F.et,lw:180,minRows:12});
+  {const ids=top(etC,0,0,12).map(o=>o.i);XC.chEt=()=>xO('التكلفة حسب نوع المعدة — الأنواع الظاهرة في الرسم',i=>ids.includes(D.o[i][5]),[['ترتيب النوع',i=>ids.indexOf(D.o[i][5])+1]],(a,b)=>ids.indexOf(D.o[a][5])-ids.indexOf(D.o[b][5])||oCost[b]-oCost[a])}
   donut($('chSt'),D.ws.map((l,i)=>({l:'ورشة '+l,v:stC[i],c:[C.rose,C.blue][i],click:()=>setF('ws',i)})));
+  XC.chSt=()=>xO('التكلفة حسب الورشة — كل الأوامر',()=>true,[],(a,b)=>D.o[a][1]-D.o[b][1]||oCost[b]-oCost[a]);
   const eqs=Object.entries(eqA).map(([k,e])=>({k:+k,e}));
   hbar($('chEqC'),eqs.sort((p,q)=>q.e[4]-p.e[4]).slice(0,10).map(({k,e})=>({l:D.eq[k][0],v:[e[4]],tip:`<b>${D.eq[k][0]}</b><br>${D.et[D.eq[k][1]]}<br>التكلفة: <b>${fmt(e[4])}</b> ريال<br>عدد الأوامر: ${e[0]}`})),{color:C.red,lw:220,minRows:10});
+  {const ids=eqs.slice().sort((p,q)=>q.e[4]-p.e[4]).slice(0,10).map(o=>o.k);XC.chEqC=()=>xL('أعلى 10 معدات تكلفة — كل قطع الغيار المصروفة عليها',l=>ids.includes(D.o[l[0]][6]),[['ترتيب المعدة',l=>ids.indexOf(D.o[l[0]][6])+1]],(a,b)=>ids.indexOf(D.o[a[0]][6])-ids.indexOf(D.o[b[0]][6])||(D.o[a[0]][9]<D.o[b[0]][9]?-1:1))}
   hbar($('chEqN'),eqs.filter(o=>o.e[1]>0).sort((p,q)=>q.e[1]-p.e[1]||q.e[4]-p.e[4]).slice(0,10).map(({k,e})=>({l:D.eq[k][0],v:[e[1]],tip:`<b>${D.eq[k][0]}</b><br>${D.et[D.eq[k][1]]}<br>أوامر PMV: <b>${e[1]}</b><br>تكلفة المنصرف: ${fmt(e[4])} ريال`})),{color:C.amber,lw:220,vfmt:v=>v+' أمر',minRows:10});
+  {const ids=eqs.filter(o=>o.e[1]>0).sort((p,q)=>q.e[1]-p.e[1]||q.e[4]-p.e[4]).slice(0,10).map(o=>o.k);XC.chEqN=()=>xO('أعلى 10 معدات دخولاً للورشة — أوامر الأعطال PMV',i=>ids.includes(D.o[i][6])&&D.o[i][2]===0,[['ترتيب المعدة',i=>ids.indexOf(D.o[i][6])+1]],(a,b)=>ids.indexOf(D.o[a][6])-ids.indexOf(D.o[b][6])||(D.o[a][9]<D.o[b][9]?-1:1))}
   // durations
   const REF=new Date(D.ref),dd=(a,b)=>Math.round((b-a)/864e5);
   const opn=[],cls=[];D.o.forEach((o,i)=>{if(!mask[i])return;const d0=new Date(o[9]);if(!o[3])opn.push([i,dd(d0,REF)]);else if(o[8])cls.push([i,dd(d0,new Date(o[8]))])});
   const durTip=(i,v,lab)=>{const o=D.o[i];return `<b>${D.eq[o[6]][0]}</b><br>${D.et[D.eq[o[6]][1]]}<br>أمر رقم: ${o[7]} — ${D.ws[o[1]]} (${TP[o[2]]})<br>تاريخ الفتح: ${o[9]}${o[8]?'<br>تاريخ الانتهاء: '+o[8]:''}<br>${lab}: <b>${v} يوم</b><br>تكلفة المنصرف: ${fmt(oCost[i])} ريال`};
   $('openSub').textContent=`عدد الأيام من تاريخ فتح الأمر حتى ${D.ref} (آخر تاريخ في البيانات) — ${fmt(opn.length)} أمراً مفتوحاً`;
   hbar($('chOpen'),opn.sort((p,q)=>q[1]-p[1]).slice(0,10).map(([i,v])=>({l:D.eq[D.o[i][6]][0],v:[v],tip:durTip(i,v,'مدة البقاء حتى الآن')})),{color:C.red,lw:230,vfmt:v=>v+' يوم',minRows:10});
+  {const L=opn.slice().sort((p,q)=>q[1]-p[1]).slice(0,10);XC.chOpen=()=>xO('أقدم المعدات داخل الورشة — أوامر لم تُغلق',i=>L.some(x=>x[0]===i),[['الترتيب',i=>L.findIndex(x=>x[0]===i)+1],['أيام البقاء حتى الآن',i=>L.find(x=>x[0]===i)[1]]],(a,b)=>L.findIndex(x=>x[0]===a)-L.findIndex(x=>x[0]===b))}
   hbar($('chLong'),cls.sort((p,q)=>q[1]-p[1]).slice(0,10).map(([i,v])=>({l:D.eq[D.o[i][6]][0],v:[v],tip:durTip(i,v,'مدة البقاء')})),{color:C.vio,lw:230,vfmt:v=>v+' يوم',minRows:10});
+  {const L=cls.slice().sort((p,q)=>q[1]-p[1]).slice(0,10);XC.chLong=()=>xO('أطول مدة بقاء داخل الورشة — أوامر مغلقة',i=>L.some(x=>x[0]===i),[['الترتيب',i=>L.findIndex(x=>x[0]===i)+1],['مدة البقاء (يوم)',i=>L.find(x=>x[0]===i)[1]]],(a,b)=>L.findIndex(x=>x[0]===a)-L.findIndex(x=>x[0]===b))}
   hbar($('chGr'),top(grC).map(o=>({l:D.gr[o.i],v:[o.v],tip:`<b>${D.gr[o.i]}</b><br>${fmt(o.v)} ريال<br>${pct(o.v/cost)}`})),{multi:1,lw:180,minRows:10});
+  {const ids=top(grC).map(o=>o.i);XC.chGr=()=>xL('التكلفة حسب مجموعة الصنف — المجموعات الظاهرة في الرسم',l=>ids.includes(D.it[l[1]][1]),[['ترتيب المجموعة',l=>ids.indexOf(D.it[l[1]][1])+1]],(a,b)=>ids.indexOf(D.it[a[1]][1])-ids.indexOf(D.it[b[1]][1])||b[3]-a[3])}
   hbar($('chIt'),Object.entries(itC).sort((p,q)=>q[1]-p[1]).slice(0,10).map(([k,v])=>({l:D.it[k][0],v:[v],tip:`<b>${D.it[k][0]}</b><br>${D.gr[D.it[k][1]]}<br>${fmt(v)} ريال`})),{color:C.blue,lw:240,minRows:10});
+  {const ids=Object.entries(itC).sort((p,q)=>q[1]-p[1]).slice(0,10).map(x=>+x[0]);XC.chIt=()=>xL('أعلى 10 أصناف تكلفة — كل مرات الصرف',l=>ids.includes(l[1]),[['ترتيب الصنف',l=>ids.indexOf(l[1])+1]],(a,b)=>ids.indexOf(a[1])-ids.indexOf(b[1])||(D.o[a[0]][9]<D.o[b[0]][9]?-1:1))}
   hbar($('chRep'),Object.entries(rep).sort((p,q)=>q[1]-p[1]).slice(0,12).map(([k,v])=>({l:D.it[k][0],v:[v],tip:`<b>${D.it[k][0]}</b><br>${D.gr[D.it[k][1]]}<br>صُرفت في <b>${v}</b> أمر PMV<br>تكلفتها: ${fmt(itC[k]||0)} ريال`})),{color:C.rose,lw:210,vfmt:v=>v+' أمر',minRows:12});
+  {const ids=Object.entries(rep).sort((p,q)=>q[1]-p[1]).slice(0,12).map(x=>+x[0]);XC.chRep=()=>xL('أكثر قطع الغيار صرفاً في الأعطال — مرات الصرف في أوامر PMV',l=>ids.includes(l[1])&&D.o[l[0]][2]===0,[['ترتيب القطعة',l=>ids.indexOf(l[1])+1]],(a,b)=>ids.indexOf(a[1])-ids.indexOf(b[1])||(D.o[a[0]][9]<D.o[b[0]][9]?-1:1))}
   const pr=Object.values(pair).filter(p=>p[2]>=3).sort((p,q)=>q[2]-p[2]||q[4]-p[4]);
   XP.rep=()=>openModal('نفس القطعة على نفس المعدة (3 أوامر فأكثر)',`${fmt(pr.length)} حالة`,['المعدة','نوع المعدة','القطعة','عدد أوامر الصرف (كل الفترة)','الكمية','التكلفة'],pr.map(p=>[D.eq[p[0]][0],D.et[D.eq[p[0]][1]],D.it[p[1]][0],p[2],+p[3].toFixed(2),Math.round(p[4])]),[3,4,5]);
   $('repBody').innerHTML=pr.length?pr.slice(0,150).map(p=>`<tr><td>${D.eq[p[0]][0]}</td><td><span class="tag">${D.et[D.eq[p[0]][1]]}</span></td><td>${D.it[p[1]][0]}</td><td class="n"><span class="tag ${p[2]>=6?'hot':''}">${p[2]}</span></td><td class="n">${fmt(p[3])}</td><td class="n">${fmt(p[4])}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">لا توجد حالات تكرار</td></tr>';
@@ -657,6 +709,7 @@ function render(){
     if(L2.some(j=>j!==i&&D.o[j][2]===0&&dt(D.o[j][9])>f&&dt(D.o[j][9])-f<=30*DAY)){retN++;retEq[e]=(retEq[e]||0)+1}})}
   $('m3').textContent=pct(retN/Math.max(1,closedN));
   hbar($('chRet'),Object.entries(retEq).sort((p,q)=>q[1]-p[1]).slice(0,10).map(([e,v])=>({l:D.eq[e][0],v:[v],tip:`<b>${D.eq[e][0]}</b><br>${D.et[D.eq[e][1]]}<br>عادت للورشة <b>${v}</b> مرة، كل مرة خلال 30 يوماً من إغلاق أمر سابق (على مدى الفترة كلها)`})),{color:C.red,lw:200,vfmt:v=>v+' مرة',minRows:10});
+  {const ids=Object.entries(retEq).sort((p,q)=>q[1]-p[1]).slice(0,10).map(x=>+x[0]);XC.chRet=()=>{const gap={};ids.forEach(e=>{const L2=(byEq[e]||[]).filter(i=>D.o[i][2]===0).sort((p,q)=>dt(D.o[p][9])-dt(D.o[q][9]));let lastF=null;L2.forEach(i=>{const o=D.o[i];if(lastF!=null){const g=Math.round((dt(o[9])-lastF)/DAY);gap[i]=g}if(o[3]&&o[8]){const f=dt(o[8]);if(lastF==null||f>lastF)lastF=f}})});xO('أكثر المعدات عودةً للورشة — أوامر الأعطال PMV',i=>ids.includes(D.o[i][6])&&D.o[i][2]===0,[['ترتيب المعدة',i=>ids.indexOf(D.o[i][6])+1],['أيام منذ إغلاق أمر سابق',i=>gap[i]==null?'—':gap[i]],['عودة خلال 30 يوماً',i=>gap[i]!=null&&gap[i]>=0&&gap[i]<=30?'نعم':'']],(a,b)=>ids.indexOf(D.o[a][6])-ids.indexOf(D.o[b][6])||(D.o[a][9]<D.o[b][9]?-1:1))}}
   // aging
   const B4=[['أقل من 30 يوماً',0,30],['31 – 90 يوماً',31,90],['91 – 180 يوماً',91,180],['أكثر من 180 يوماً',181,1e9]],ag=B4.map(()=>[0,0]);let nOp=0;
   fo.forEach(i=>{const o=D.o[i];if(o[3])return;nOp++;const d=Math.round((REFT-dt(o[9]))/DAY);const k=B4.findIndex(b=>d>=b[1]&&d<=b[2]);ag[k][0]++;ag[k][1]+=oCost[i]});
@@ -679,11 +732,13 @@ function render(){
   const selO=o=>(F.ws<0||o[1]===F.ws)&&(F.tp<0||o[2]===F.tp)&&(F.st<0||o[3]===F.st)&&(F.cu<0||o[4]===F.cu)&&(F.et<0||o[5]===F.et);
   const mAll=new Float64Array(D.months.length);D.o.forEach((o,i)=>{if(selO(o))mAll[o[0]]+=oCost[i]});
   const y5=new Array(12).fill(0),y6=new Array(12).fill(0);D.months.forEach((m,i)=>{const[yy,mm]=m.split('-');(yy==='2025'?y5:yy==='2026'?y6:[])[+mm-1]+=mAll[i]});
-  yoy($('chYoy'),y5,y6);let s5=0,s6=0;let lm=1;y6.forEach((v,m)=>{if(v>0)lm=m+1});const lastM=['',lm];for(let m=0;m<lm;m++){s5+=y5[m];s6+=y6[m]}
+  yoy($('chYoy'),y5,y6);
+  XC.chYoy=()=>{const rows=MN.map((m,i)=>[m,Math.round(y5[i]),Math.round(y6[i]),Math.round(y6[i]-y5[i]),y5[i]&&y6[i]?pct((y6[i]-y5[i])/y5[i]):'—']);openModal('مقارنة 2025 مع 2026 — التكلفة الشهرية','حسب شهر فتح الأمر',['الشهر','2025','2026','الفرق','نسبة التغير'],rows,[1,2,3])};let s5=0,s6=0;let lm=1;y6.forEach((v,m)=>{if(v>0)lm=m+1});const lastM=['',lm];for(let m=0;m<lm;m++){s5+=y5[m];s6+=y6[m]}
   $('yoySub').textContent=`نفس الفترة (يناير – ${MN[+lastM[1]-1]}): 2025 = ${fmtK(s5)} · 2026 = ${fmtK(s6)} · التغير ${s5?((s6-s5)/s5>0?'+':'')+pct((s6-s5)/s5):'—'}`;
   // avg per equipment by type
   const tC={},tN={};eqs.forEach(({k,e})=>{const t=D.eq[k][1];tC[t]=(tC[t]||0)+e[4];tN[t]=(tN[t]||0)+1});
   hbar($('chAvg'),Object.keys(tC).map(t=>({l:D.et[t],v:[tC[t]/tN[t]],tip:`<b>${D.et[t]}</b><br>متوسط ${fmt(tC[t]/tN[t])} ريال للمعدة<br>${fmt(tN[t])} معدة · إجمالي ${fmt(tC[t])} ريال`,k:+t,click:()=>setF('et',+t)})).sort((p,q)=>q.v[0]-p.v[0]).slice(0,10),{color:C.grn,lw:170,minRows:10,active:F.et});
+  {const ts=Object.keys(tC).map(t=>[+t,tC[t]/tN[t]]).sort((p,q)=>q[1]-p[1]).slice(0,10);XC.chAvg=()=>{const rows=[];ts.forEach(([t,av],r)=>eqs.filter(o=>D.eq[o.k][1]===t).sort((p,q)=>q.e[4]-p.e[4]).forEach(o=>rows.push([r+1,D.et[t],Math.round(av),D.eq[o.k][0],o.e[0],o.e[1],Math.round(o.e[4])])));openModal('متوسط التكلفة لكل معدة حسب النوع — معدات الأنواع الظاهرة',`${fmt(ts.length)} أنواع · ${fmt(rows.length)} معدة`,['ترتيب النوع','نوع المعدة','متوسط تكلفة المعدة في النوع','المعدة','عدد الأوامر','أوامر PMV','تكلفة المعدة'],rows,[0,2,4,5,6])}}
   // ===================== EXECUTIVE =====================
   {
   const pStart=dt(D.months[F.from]+'-01'),[ty2,tm2]=D.months[F.to].split('-').map(Number),pEnd=Math.min(new Date(ty2,tm2,1).getTime(),REFT+DAY),pDays=Math.max(1,(pEnd-pStart)/DAY);
@@ -714,7 +769,8 @@ function render(){
   const tX=Math.max(3,q75(cand.map(o=>o.e[1]))),tY=q75(cand.map(o=>o.e[4]));
   const red=[];const pts=cand.map(({k,e})=>{const hx=e[1]>=tX,hy=e[4]>=tY;const c=hx&&hy?C.red:hx?C.amber:hy?C.vio:C.teal;if(hx&&hy)red.push({k,e});
     return{x:e[1],y:e[4],c,r:hx&&hy?5:0,tip:`<b>${D.eq[k][0]}</b><br>${D.et[D.eq[k][1]]}<br>أعطال PMV: <b>${e[1]}</b><br>التكلفة: <b>${fmt(e[4])}</b> ريال<br>MTBF: ${mtbf[k]?Math.round(mtbf[k])+' يوم':'—'}<br>أيام التوقف: ${Math.round(down[k]||0)}`}});
-  pts.sort((a,b)=>(a.r||0)-(b.r||0));scatter($('chMx'),pts,tX,tY);red.sort((a,b)=>b.e[4]-a.e[4]);
+  pts.sort((a,b)=>(a.r||0)-(b.r||0));scatter($('chMx'),pts,tX,tY);
+  XC.chMx=()=>{const rows=cand.slice().sort((a,b)=>b.e[4]-a.e[4]).map(({k,e})=>{const hx=e[1]>=tX,hy=e[4]>=tY;return[D.eq[k][0],D.et[D.eq[k][1]],e[1],Math.round(e[4]),mtbf[k]?Math.round(mtbf[k]):'—',Math.round(down[k]||0),hx&&hy?'مرشحة لقرار':hx?'أعطال كثيرة · تكلفة أقل':hy?'تكلفة عالية · أعطال أقل':'سليمة']});openModal('مصفوفة قرار المعدات — كل النقاط في الرسم',`${fmt(rows.length)} معدة · الحد: ${tX} أعطال و ${fmt(tY)} ريال`,['المعدة','النوع','أعطال PMV','التكلفة','MTBF (يوم)','أيام التوقف','التصنيف في المصفوفة'],rows,[2,3,4,5])};red.sort((a,b)=>b.e[4]-a.e[4]);
   $('mxSub').textContent=`الحد الفاصل: ${tX} أعطال فأكثر و ${fmt(tY)} ريال فأكثر (أعلى 10%) — من ${fmt(cand.length)} معدة عليها أعطال`;
   $('mxBody').innerHTML=red.length?red.map(({k,e})=>`<tr><td>${D.eq[k][0]}<br><span class="tag">${D.et[D.eq[k][1]]}</span></td><td class="n">${e[1]}</td><td class="n"><b>${fmt(e[4])}</b></td><td class="n">${mtbf[k]?Math.round(mtbf[k]):'—'}</td><td class="n">${Math.round(down[k]||0)}</td><td class="n"><span class="tag ${(rEq[k]||0)>=5?'hot':''}">${rEq[k]||0}</span></td><td><button class="vbtn" onclick="showParts(${k})">عرض ▸</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">لا توجد معدات في منطقة القرار</td></tr>';
   const redCost=red.reduce((a,o)=>a+o.e[4],0);
@@ -737,6 +793,7 @@ function render(){
     <div class="pvB"><span class="pvN">بدون وقائية</span><div class="pvT"><div style="width:${(b/m*100).toFixed(1)}%;background:#94a3b8"></div></div><b style="color:#475569">${f(b)}</b></div></div>`}).join('');
   $('pvNote').textContent=rF>nF?'المعدات المنتظمة وقائياً أعطالها أكثر، وهذا غالباً لأنها الأكثر تشغيلاً فتدخل الورشة أكثر في الحالتين، وليس لأن الوقائية بلا فائدة. لا يمكن الحكم على أثر الوقائية بعدالة بدون ساعات التشغيل لكل معدة؛ عند إضافتها تتحول المقارنة إلى أعطال لكل 1000 ساعة تشغيل.':'المعدات المنتظمة وقائياً أعطالها وتكلفتها أقل من غير المنتظمة داخل نفس الأنواع، وهذا مؤشر على جدوى الوقائية. للتأكيد يُفضّل ربطها بساعات التشغيل.';
   drawSankey();
+  drawEtAll();
   // hero
   // YoY window: months of the latest year inside the selected range (up to last month with cost) vs same months a year earlier
   let LmY=-1;for(let i=F.to;i>=F.from;i--)if(mAll[i]>0){LmY=i;break}
@@ -929,6 +986,7 @@ for(const id in INFO){const el=$(id);if(!el)continue;const a=INFO[id];
   if(kpi&&!kpi.querySelector('.ii'))kpi.insertAdjacentHTML('afterbegin',icon(a));
   else if(mk)mk.querySelector('.t').insertAdjacentHTML('beforeend',icon(a));
   else if(card){const h=card.querySelector('h3');if(h&&!h.querySelector('.ii'))h.insertAdjacentHTML('beforeend',icon(a))}}
+document.querySelectorAll('canvas[id^="ch"]').forEach(cv=>{if(!XC.hasOwnProperty(cv.id)&&!['chSk','chEtAll','chMonth','chType','chSt','chCu','chEt','chAvg','chEqC','chEqN','chOpen','chLong','chGr','chIt','chRep','chRet','chMx','chYoy'].includes(cv.id))return;const card=cv.closest('.card');if(!card)return;const h=card.querySelector('h3');if(!h||h.querySelector('.xbtn'))return;const b=document.createElement('button');b.className='vbtn xbtn';b.textContent='⬇ Excel';b.title='تصدير تفاصيل البيانات الظاهرة في الرسم';b.onclick=e=>{e.stopPropagation();XC[cv.id]&&XC[cv.id]()};const ii=h.querySelector('.ii');ii?h.insertBefore(b,ii):h.appendChild(b)});
 let tipLock=null;
 function showInfo(el){const a=JSON.parse(decodeURIComponent(el.dataset.i));tip.innerHTML=tipHTML(a);tip.style.display='block';const r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;
   tip.style.left=Math.min(window.innerWidth-tw-8,Math.max(8,r.left+r.width/2-tw/2))+'px';tip.style.top=(r.bottom+th+12>window.innerHeight?r.top-th-8:r.bottom+8)+'px'}
@@ -982,32 +1040,27 @@ async function exportPDF(){const btn=$('printBtn'),old=btn.textContent;btn.disab
   catch(e){console.error(e);const b=$('pdfBox');if(b)b.remove();if($('printPageSrc'))$('printPageSrc').id='printPage';alert('تعذر تصدير PDF من هذا المتصفح. جرّب Chrome أو Edge.')}
   finally{btn.disabled=false;btn.textContent=old}}
 $('printBtn').onclick=exportPDF;
+
+// ---------- searchable + cascading equipment-type filter ----------
+const ssN=t=>(t||'').toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[ً-ْـ]/g,'');
+let ssCnt=null,ssHl=-1;
+function etCounts(){const f=F.et;F.et=-1;const c=new Uint32Array(D.et.length);D.o.forEach(o=>{if(sel(o))c[o[5]]++});F.et=f;return c}
+function ssDraw(){const q=ssN($('ssEtQ').value.trim());const c=ssCnt||etCounts();
+  const items=[{i:-1,l:'كل الأنواع',n:c.reduce((a,b)=>a+b,0)}].concat(D.et.map((l,i)=>({i,l,n:c[i]})).filter(o=>o.n>0||o.i===F.et).sort((a,b)=>a.l.localeCompare(b.l,'ar')));
+  const vis=items.filter(o=>!q||o.i===-1&&!q||ssN(o.l).includes(q));
+  ssHl=Math.min(ssHl,vis.length-1);
+  $('ssEtL').innerHTML=vis.length?vis.map((o,k)=>`<div class="ssI${o.i===F.et?' on':''}${k===ssHl?' hl':''}" data-i="${o.i}"><span>${o.l}</span><span class="c">${fmt(o.n)} أمر</span></div>`).join(''):'<div class="ssE">لا يوجد نوع معدة مطابق داخل الفلاتر الحالية</div>'}
+function ssSync(){$('ssEtTxt').textContent=F.et<0?'كل الأنواع':D.et[F.et]}
+function ssOpen(v){const w=$('ssEt');if(v){ssCnt=etCounts();$('ssEtQ').value='';ssHl=-1;ssDraw();w.classList.add('open');setTimeout(()=>$('ssEtQ').focus(),0)}else w.classList.remove('open')}
+$('ssEtBtn').onclick=()=>ssOpen(!$('ssEt').classList.contains('open'));
+$('ssEtQ').addEventListener('input',()=>{ssHl=0;ssDraw()});
+$('ssEtQ').addEventListener('keydown',e=>{const its=[...$('ssEtL').querySelectorAll('.ssI')];if(e.key==='ArrowDown'){ssHl=Math.min(its.length-1,ssHl+1);ssDraw();e.preventDefault()}else if(e.key==='ArrowUp'){ssHl=Math.max(0,ssHl-1);ssDraw();e.preventDefault()}else if(e.key==='Enter'){const it=its[Math.max(0,ssHl)];if(it)it.click();e.preventDefault()}else if(e.key==='Escape')ssOpen(false)});
+$('ssEtL').addEventListener('click',e=>{const it=e.target.closest('.ssI');if(!it)return;F.et=+it.dataset.i;ssOpen(false);syncUI();render()});
+document.addEventListener('click',e=>{if(!e.target.closest('#ssEt'))ssOpen(false)});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
 syncUI();render();
 document.fonts&&document.fonts.ready.then(render);
 
-// ---------- opening animation (first view only) ----------
-(function(){if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const V=['chMonth','chYoy'],LR=['chSk','chPar'],FD=['chType','chSt','chMx'];
-  const from=id=>V.includes(id)?'inset(100% 0 0 0)':LR.includes(id)?'inset(0 100% 0 0)':FD.includes(id)?null:'inset(0 0 0 100%)';
-  const cvs=[...document.querySelectorAll('canvas[id^="ch"]')];
-  cvs.forEach(c=>{const f=from(c.id);if(f){c.style.clipPath=f;c.style.webkitClipPath=f}else{c.style.opacity='0';c.style.transform='scale(.92)'}});
-  const nums=[...document.querySelectorAll('.kpi .v, .nw .v')];nums.forEach(el=>el.style.visibility='hidden');
-  const ease=t=>1-Math.pow(1-t,3);
-  function count(el){el.style.visibility='';const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const jobs=[];let n;
-    while(n=w.nextNode()){const m=n.nodeValue.match(/-?\d[\d,]*(\.\d+)?/);if(!m)continue;const raw=m[0],dec=(m[1]||'').length?m[1].length-1:0,comma=raw.includes(','),tgt=parseFloat(raw.replace(/,/g,''));if(!isFinite(tgt))continue;
-      jobs.push({n,pre:n.nodeValue.slice(0,m.index),post:n.nodeValue.slice(m.index+raw.length),tgt,dec,comma})}
-    if(!jobs.length)return;const t0=performance.now(),D=1300;
-    const fmtN=(v,j)=>{let s=Math.abs(v).toFixed(j.dec);if(j.comma){const[a,b]=s.split('.');s=a.replace(/\B(?=(\d{3})+(?!\d))/g,',')+(b!=null?'.'+b:'')}return(v<0?'-':'')+s};
-    const step=now=>{const p=Math.min(1,(now-t0)/D),e=ease(p);jobs.forEach(j=>{j.n.nodeValue=j.pre+fmtN(p<1?j.tgt*e:j.tgt,j)+j.post});if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
-  function reveal(c){c.style.transition='clip-path 1.1s cubic-bezier(.22,.8,.3,1),-webkit-clip-path 1.1s cubic-bezier(.22,.8,.3,1),opacity .8s ease,transform .8s cubic-bezier(.22,.8,.3,1)';
-    requestAnimationFrame(()=>{c.style.clipPath='inset(0 0 0 0)';c.style.webkitClipPath='inset(0 0 0 0)';c.style.opacity='1';c.style.transform='none'});
-    setTimeout(()=>{c.style.transition='';c.style.clipPath='';c.style.webkitClipPath='';c.style.transform=''},1300)}
-  const start=()=>{if(!('IntersectionObserver' in window)){cvs.forEach(reveal);nums.forEach(count);return}
-    const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);if(e.target._cv)reveal(e.target._cv);else count(e.target)}),{threshold:.15});
-    cvs.forEach(c=>{const p=c.parentElement;p._cv=c;io.observe(p)});nums.forEach(el=>io.observe(el))};
-  let go=false;const once=()=>{if(go)return;go=true;setTimeout(start,60)};
-  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(once);setTimeout(once,900)})();
 </script>
 </body>
 </html>
