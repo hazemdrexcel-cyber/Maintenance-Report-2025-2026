@@ -24,7 +24,7 @@ button{font-family:inherit;cursor:pointer}
 .btn{background:#ffffff14;border:1px solid #ffffff44;color:#fff;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600}
 .btn:hover{border-color:#ffb15c;background:#ffffff22}
 .filters{display:grid;grid-template-columns:repeat(8,1fr) auto;gap:10px;background:#fff;border:1px solid #d5dde8;border-right:6px solid #2f4858;border-radius:16px;padding:14px 16px;margin-bottom:18px;position:sticky;top:8px;z-index:20;box-shadow:0 10px 26px #2f485833}
-.filters .f label{color:#2f4858}.filters .f select,.filters .ssBtn{background:#f4f7fa;border-color:#d5dde8}
+.filters .f label{color:#2f4858}.rstBtn{background:#fff;border:1.5px solid #f08a24;color:#c2410c;border-radius:9px;padding:8px 12px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}.rstBtn:hover{background:#f08a24;color:#fff}.filters .f select,.filters .ssBtn{background:#f4f7fa;border-color:#d5dde8}
 .f label{display:block;font-size:11.5px;color:var(--mut);margin-bottom:5px;font-weight:600}
 .f select{width:100%;background:#ffffff;color:var(--tx);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none}
 .ss{position:relative}.ssBtn{width:100%;text-align:right;background:#fff;color:var(--tx);border:1px solid var(--line);border-radius:9px;padding:8px 10px 8px 28px;font-family:inherit;font-size:13px;cursor:pointer;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ssBtn::after{content:'';position:absolute;left:11px;top:50%;width:6px;height:6px;border-left:1.6px solid #1e2b45;border-bottom:1.6px solid #1e2b45;transform:translateY(-70%) rotate(-45deg)}.ss.open .ssBtn,.ssBtn:focus{border-color:var(--teal);outline:none}.ssP{display:none;position:absolute;top:calc(100% + 4px);right:0;min-width:100%;width:280px;max-width:90vw;background:#fff;border:1px solid #cfd9e7;border-radius:10px;box-shadow:0 14px 34px #2f485833;z-index:60;padding:8px}.ss.open .ssP{display:block}.ssP input{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-family:inherit;font-size:13px;outline:none;margin-bottom:6px}.ssP input:focus{border-color:var(--teal)}.ssL{max-height:280px;overflow:auto}.ssI{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;font-size:13px;cursor:pointer;color:var(--tx)}.ssI:hover,.ssI.hl{background:#eef4fb}.ssI.on{background:#e6f3f1;color:#0f766e;font-weight:700}.ssI .c{font-size:11px;color:var(--mut);background:#f1f4f8;border-radius:10px;padding:1px 7px;flex:none}.ssE{padding:10px;font-size:12.5px;color:var(--mut);text-align:center}
@@ -209,7 +209,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="hdr-r">
     <div class="pill" id="rangePill"></div>
     <button class="btn" id="printBtn">⬇ تصدير PDF</button>
-    <button class="btn" id="resetBtn">↺ إعادة ضبط الفلاتر</button>
+    
   </div>
 </header>
 
@@ -222,7 +222,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="f"><label>حالة الأمر</label><select id="fSt"></select></div>
   <div class="f"><label>الشركة المستفيدة</label><select id="fCu"></select></div>
   <div class="f"><label>نوع المعدة</label><select id="fEt" style="display:none"></select><div class="ss" id="ssEt"><button type="button" class="ssBtn" id="ssEtBtn"><span id="ssEtTxt">كل الأنواع</span></button><div class="ssP" id="ssEtP"><input id="ssEtQ" placeholder="ابحث عن نوع المعدة…" autocomplete="off"><div class="ssL" id="ssEtL"></div></div></div></div>
-  <div class="chips"><span class="pill" id="selInfo">كل البيانات</span></div>
+  <div class="chips"><span class="pill" id="selInfo" style="display:none">كل البيانات</span><button type="button" id="resetBtn" class="rstBtn">↺ إعادة ضبط الفلاتر</button></div>
 </div>
 
 <div class="tabs"><button class="tab on" data-p="pgExec"><span class="ic">📊</span> الملخص التنفيذي</button><button class="tab" data-p="pgDetail"><span class="ic">🔍</span> التحليل التفصيلي</button></div>
@@ -649,9 +649,6 @@ function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!(c
   // notes
   const notes=[];
   if(T.k['2025']&&T.k['2026']){const d=(T.k['2026'].v-T.k['2025'].v)/T.k['2025'].v;notes.push(`إجمالي التكلفة: 2026 = <b>${fmtK(T.k['2026'].v)}</b> مقابل 2025 = <b>${fmtK(T.k['2025'].v)}</b> <span dir="ltr" style="unicode-bidi:isolate;color:${d>0?C.red:C.grn}">(${d>0?'▲ +':'▼ '}${pct(Math.abs(d))})</span>${lm<12?' — تنبيه: 2026 سنة غير مكتملة':''}.`)}
-  const allT=[];for(const y in T.k)for(const ws in T.k[y].k)for(const et in T.k[y].k[ws].k){const E=T.k[y].k[ws].k[et];if(!E.isO&&E.v>T.v*.03)allT.push({y,ws,E,p:(E.k[0]?E.k[0].v:0)/E.v})}
-  if(allT.length){allT.sort((a,b)=>b.p-a.p);const hi=allT[0],lo=allT[allT.length-1];notes.push(`أعلى نسبة أعطال: <b>${hi.E.lab}</b> (${D.ws[hi.ws]} ${hi.y}) — ${pct(hi.p)} من تكلفتها أعطال PMV${lo.p<.5?` · وأقلها: <b>${lo.E.lab}</b> (${D.ws[lo.ws]} ${lo.y}) ${pct(lo.p)} فقط`:''}.`)}
-  if(pv>0&&pm>0)notes.push(`قطع الغيار تمثل <b>${pct(pmp/pm)}</b> من تكلفة الأعطال و<b>${pct(pvp/pv)}</b> فقط من تكلفة الوقائية (الباقي زيوت وفلاتر ومستهلكات)${pvp/pv>.25?' — نسبة قطع الغيار في الوقائية مرتفعة، وقد تعني أعطالاً مسجلة كوقائية':''}.`);
   if(noDom)return notes;$('skNote').innerHTML=notes.map(t=>`<div>• ${t}</div>`).join('');$('skNote').style.display=notes.length?'':'none';
   $('skSub').textContent=(T.k['2026']&&lm<12?`يتبع الفلاتر أعلاه · بيانات 2026 حتى ${MN[lm-1]} فقط`:'يتبع الفلاتر أعلاه')+' · كل ورشة تعرض أنواع المعدات حتى 90% من تكلفتها، والباقي «أنواع أخرى» (اضغط عليها لفتحها) · آخر عمود: أحمر أعطال، أخضر وقائي';
 }
