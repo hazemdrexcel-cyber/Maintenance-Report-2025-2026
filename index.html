@@ -611,10 +611,10 @@ function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!cv
   nodes.forEach(n=>{const X=xs(n),hh=Math.max(1.5,n.y1-n.y0);x.fillStyle=col(n.lvl,n.key);x.fillRect(X,n.y0,NW,hh);if(n.lvl>=1&&n.lvl<=3&&skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)){x.strokeStyle='#ffb15c';x.lineWidth=3;x.strokeRect(X-2,n.y0-2,NW+4,hh+4)}
     const label=n.lvl===0?'إجمالي التكلفة':nm(n.lvl,n.key);const val=fmtK(n.nd.v)+(n.parent?' · '+pct(n.nd.v/n.parent.nd.v):'');
     const cy=n.cy;const tx=n.lvl===0?X-6:X+NW+6;
-    x.lineWidth=3;x.strokeStyle='#ffffffe6';x.lineJoin='round';
+    x.lineWidth=4;x.strokeStyle='#ffffff';x.lineJoin='round';
     const two=n.two;x.direction='rtl';x.textAlign=n.lvl===0?'right':'left';
-    x.font=`700 ${n.lvl>=4?11:12}px Cairo,Segoe UI,Tahoma`;
-    if(two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`${n.lvl>=4?10.5:11.5}px Cairo,Segoe UI,Tahoma`;const vv='\u2066'+val+'\u2069';x.strokeText(vv,tx,cy+8);x.fillStyle='#6b7a90';x.fillText(vv,tx,cy+8)}
+    x.font=`800 ${n.lvl>=4?12:13.5}px Cairo,Segoe UI,Tahoma`;
+    if(two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`700 ${n.lvl>=4?11.5:12.5}px Cairo,Segoe UI,Tahoma`;const vv='\u2066'+val+'\u2069';x.strokeText(vv,tx,cy+9);x.fillStyle='#2f4858';x.fillText(vv,tx,cy+9)}
     else{const s=label+'  \u2066'+val+'\u2069';x.strokeText(s,tx,cy);x.fillStyle='#1e2b45';x.fillText(s,tx,cy)}
     const tip=`<b>${n.lvl===0?'إجمالي التكلفة':n.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ')}</b><br>${fmt(n.nd.v)} ريال${n.parent?'<br>'+pct(n.nd.v/n.parent.nd.v)+' من المستوى السابق':''}<br>${pct(n.nd.v/T.v)} من الإجمالي${n.lvl<=3&&n.nd.n?'<br>عدد الأوامر: '+fmt(n.nd.n):''}${n.lvl>=1&&n.lvl<=3?'<br><span style="color:#0d9488">'+(skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)?'الفلتر مطبّق — اضغط مرة أخرى لإلغائه':'اضغط لتطبيقه كفلتر على اللوحة')+'</span>':''}`;
     const p=n.path;const click=n.lvl>=1&&n.lvl<=3?()=>skFilter(p[1],n.lvl>=2?p[2]:null,n.lvl>=3?p[3]:null):null;
