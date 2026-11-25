@@ -12,6 +12,7 @@
 body{background:#eef2f7;color:var(--tx);font-family:Cairo,"Segoe UI",Tahoma,sans-serif;min-height:100vh}
 .wrap{max-width:1680px;margin:0 auto;padding:22px 26px 40px}
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;background:linear-gradient(120deg,#1b2d55,#26407a);border-radius:18px;padding:20px 26px;border-bottom:4px solid #d4a017;box-shadow:0 10px 28px #1b2d5533;color:#fff}
+.credits{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.credits .cr{display:inline-flex;align-items:center;gap:8px;background:#ffffff14;border:1px solid #f4c54266;border-radius:10px;padding:5px 12px}.credits .cl{font-size:12.5px;color:#cbd5e1;font-weight:600}.credits b{font-size:16px;font-weight:800;color:#f4c542}
 .ttl h1{font-size:26px;font-weight:800;letter-spacing:.2px}
 .ttl h1 span{color:#f4c542}
 .ttl p{color:#c9d5ec;font-size:13.5px;margin-top:4px}
@@ -82,6 +83,7 @@ td.n{white-space:nowrap;direction:ltr;text-align:right;font-variant-numeric:tabu
 .recs{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .recs li{background:#f6f8fb;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8;display:flex;gap:10px}
 .recs li b.n{flex:none;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#ffffff;display:grid;place-items:center;font-size:13px}
+.pvLg{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:#3c4a60;margin:4px 0 10px}.pvLg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-left:6px;vertical-align:-1px}.pvLg b{color:#1e2b45}#pvCmp{display:block}.pvR{background:#f6f8fb;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px}.pvH{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:800;color:#1e2b45;margin-bottom:6px}.pvX{font-size:11px;font-weight:700;color:var(--mut);background:#fff;border:1px solid var(--line);border-radius:20px;padding:1px 9px}.pvN{font-size:12px;font-weight:700;color:#3c4a60;white-space:nowrap}.pvB{display:grid;grid-template-columns:88px 1fr 92px;align-items:center;gap:10px;margin-top:4px}.pvB b{font-size:14px;font-weight:800;white-space:nowrap;text-align:left}.pvB small{font-size:11px;font-weight:600;color:var(--mut)}.pvT{height:12px;background:#e8edf4;border-radius:6px;overflow:hidden;display:flex}.pvT div{height:100%;border-radius:6px}
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
 .cmp .bx{background:#f6f8fb;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
 .cmp .bx .t{font-size:12px;color:var(--mut);font-weight:700}.cmp .bx .v{font-size:22px;font-weight:800;margin-top:4px}
@@ -125,6 +127,7 @@ td.n{white-space:nowrap;direction:ltr;text-align:right;font-variant-numeric:tabu
 #mdl th{white-space:normal;max-width:130px;line-height:1.45;vertical-align:bottom}#mdl td{max-width:260px}#mdl td.n{white-space:nowrap}.mbtns{display:flex;gap:8px;flex:none}
 .mbtns .btn{background:#eef4fb;border:1px solid #cfd9e7;color:#1e3a8a;border-radius:10px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer}.mbtns .btn:hover{border-color:var(--teal);color:var(--teal);background:#eef4fb}.mbtns #mCsv{background:#107c41;border-color:#107c41;color:#fff}.mbtns #mCsv:hover{background:#0b5f31;border-color:#0b5f31;color:#fff}
 .vbtn{background:#eef4fb;border:1px solid #cfd9e7;color:#1e3a8a;border-radius:8px;padding:4px 10px;font-size:11.5px;font-weight:700;white-space:nowrap}
+#skBtns .vbtn.on{background:#1b2d55;border-color:#1b2d55;color:#fff}
 .vbtn:hover{border-color:var(--teal);color:var(--teal)}
 .recs li .vbtn{margin-top:6px}
 @media (max-width:760px){.mbox{padding:12px}.mhead{flex-direction:column}.mbtns{width:100%}.mbtns .btn{flex:1}}
@@ -152,7 +155,7 @@ td.best{color:var(--grn);font-weight:800}td.worst{color:var(--red);font-weight:8
 @media (max-width:760px){.news,.risks{grid-template-columns:1fr}.wsum{grid-template-columns:1fr}}
 @media print{
  @page{size:A4 portrait;margin:10mm}
- html,body{background:#fff!important}
+ html,body{background:#fff!important}html,body,*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
  .wrap,#tip,#mdl{display:none!important}
  #printPage{display:block!important;color:#0f1d33;font-family:Cairo,"Segoe UI",Tahoma,sans-serif;direction:rtl;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
@@ -165,6 +168,9 @@ td.best{color:var(--grn);font-weight:800}td.worst{color:var(--red);font-weight:8
 #printPage table{width:100%;border-collapse:collapse;font-size:10px}#printPage th{background:#0f1d33;color:#fff;padding:4px 6px;text-align:right;position:static}#printPage td{border-bottom:1px solid #e3e8ef;padding:4px 6px;color:#0f1d33}
 #printPage ol{padding-right:18px;font-size:10.5px;line-height:1.65}#printPage ol li{margin-bottom:4px}
 #printPage .vd{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}#printPage .vd div{border:1px solid #d5dde8;border-right:4px solid var(--lc);border-radius:6px;padding:4px 7px;font-size:9.5px}#printPage .vd b{display:block;font-size:12.5px;unicode-bidi:plaintext;text-align:right}
+#printPage .psk{border:1px solid #d5dde8;border-radius:8px;padding:6px 8px;background:#fff;break-inside:avoid}#printPage .psk img{display:block;width:100%;height:auto}#printPage .pskS{font-size:9px;color:#55657e;margin-top:2px}#printPage .pskN{font-size:9.8px;line-height:1.6;margin-top:4px;color:#0f1d33}
+#printPage h2{break-after:avoid;page-break-after:avoid}#printPage table{break-inside:avoid;page-break-inside:avoid}
+#printPage .ph{background:linear-gradient(120deg,#1b2d55,#26407a)!important;color:#fff;border-radius:10px;padding:10px 14px;border-bottom:3px solid #d4a017!important;align-items:center}#printPage .ph h1{color:#fff!important}#printPage .ph div{color:#dbe4f0!important}#printPage .ph b{color:#f4c542!important}#printPage .ph .pm{color:#dbe4f0!important}#printPage .pk>div{border-right:4px solid var(--kc,#0d9488)!important}#printPage .pk .v{color:var(--kc,#0f1d33)}#printPage th{background:#0f766e!important}#printPage tr:nth-child(even) td{background:#f4f8fb}
 #printPage .pf{margin-top:10px;border-top:1px solid #d5dde8;padding-top:5px;font-size:8.5px;color:#7a8799;line-height:1.5}
 footer{color:var(--mut);font-size:11.5px;margin-top:16px;line-height:1.9;border-top:1px solid var(--line);padding-top:12px}
 .empty{color:var(--mut);text-align:center;padding:40px 0;font-size:13px}
@@ -195,7 +201,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
 <header>
   <div class="ttl">
     <h1>لوحة تحليل <span>تكاليف الصيانة وقطع الغيار</span></h1>
-    <p>مصدر البيانات: <b style="color:#f4c542">اسكون</b> • إعداد التقرير: <b style="color:#f4c542">حازم حسن</b></p>
+    <div class="credits"><span class="cr"><span class="cl">مصدر البيانات</span><b>الأستاذ / أحمد خلف</b></span><span class="cr"><span class="cl">إعداد التقرير</span><b>حازم حسن</b></span></div>
   </div>
   <div class="hdr-r">
     <div class="pill" id="rangePill"></div>
@@ -227,6 +233,9 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="kpi" style="--c:var(--amber)"><div class="l">متوسط الأيام بين عطلين (MTBF)</div><div class="v" id="h5"></div><div class="s">الوسيط لكل المعدات</div></div>
   <div class="kpi" style="--c:var(--rose)"><div class="l">أوامر العمل</div><div class="v" id="hO"></div><div class="s" id="hOs"></div></div>
 </div>
+<div class="sec">مسار تكلفة الصيانة <span>من الإجمالي إلى السنة ثم الورشة ثم نوع الصيانة ثم نوع المنصرف — اضغط على أي سنة أو ورشة أو نوع لتطبيقه كفلتر، واضغط عليه مرة أخرى لإلغائه</span></div>
+<div class="card" style="--c:var(--teal);margin-bottom:14px"><h3>مسار تدفق التكلفة</h3><div class="tbar" style="margin:3px 0 6px"><div class="sub" id="skSub" style="margin:0"></div></div><div dir="ltr" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><canvas id="chSk" height="560" style="min-width:920px;display:block"></canvas></div><div class="legend"><span><i style="background:#db2777"></i>الهفوف</span><span><i style="background:#2563eb"></i>خلاطة 108</span><span><i style="background:#dc2626"></i>أعطال PMV</span><span><i style="background:#16a34a"></i>وقائية</span><span><i style="background:#7c3aed"></i>قطع غيار</span><span><i style="background:#d97706"></i>مستهلكات (زيوت وفلاتر…)</span></div><div id="skNote" style="margin-top:10px;padding:10px 14px;background:#f6f8fb;border:1px solid var(--line);border-radius:12px;font-size:12.5px;line-height:1.95;color:#1e2b45"></div></div>
+
 <div class="sec">ما الجديد في آخر شهر <span id="newSpan"></span></div>
 <div class="news" id="news"></div>
 
@@ -274,7 +283,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
 </div>
 
 <div class="grid">
-  <div class="card c8" style="--c:var(--teal)"><h3>الاتجاه الشهري لتكلفة المنصرف</h3><div class="sub">حسب شهر أمر العمل — مقسمة بين أوامر PMV والصيانة الوقائية</div><canvas id="chMonth" height="270"></canvas><div class="legend"><span><i style="background:#0d9488"></i>أوامر PMV</span><span><i style="background:#d97706"></i>صيانة وقائية</span><span><i style="background:#2563eb"></i>عدد الأوامر</span></div></div>
+  <div class="card c8" style="--c:var(--teal)"><h3>الاتجاه الشهري لتكلفة المنصرف</h3><div class="sub">حسب شهر أمر العمل — مقسمة بين أوامر PMV والصيانة الوقائية</div><canvas id="chMonth" height="300"></canvas><div class="legend"><span><i style="background:#0d9488"></i>أوامر PMV</span><span><i style="background:#d97706"></i>صيانة وقائية</span><span><i style="background:#2563eb"></i>عدد الأوامر</span></div></div>
   <div class="card c4" style="--c:var(--amber)"><h3>توزيع التكلفة حسب نوع الأمر</h3><div class="sub">اضغط على الجزء للتصفية</div><canvas id="chType" height="270"></canvas></div>
 </div>
 
@@ -431,23 +440,25 @@ function donut(cv,items,o={}){const{x,w,h}=setup(cv);bindHits(cv);if(w<60)return
     x.textAlign='left';x.fillStyle=c;x.font='800 15px Cairo';x.fillText(pct(p),lx0+10,y+19);
     x.fillStyle='#e6ebf2';rr(x,lx0+10,y+30,Math.min(70,lw*.3),4,2);x.fillStyle=c;rr(x,lx0+10,y+30,Math.min(70,lw*.3)*p,4,2);
     cv._hits.push({X:lx0,Y:y,W:lw,H:rowH,tip:`<b>${it.l}</b><br>${fmt(it.v)} ريال<br>${pct(p)}`,click:it.click})})}
-function monthly(cv,ms,a,b,n){const{x,w,h}=setup(cv);bindHits(cv);const L=50,R=50,T=14,B=46,PW=w-L-R,PH=h-T-B,k=ms.length;
+function monthly(cv,ms,a,b,n){const{x,w,h}=setup(cv);bindHits(cv);const L=8,R=8,T=16,B=46,PW=w-L-R,PH=h-T-B,k=ms.length;
   if(!k){x.fillStyle=C.mut;x.textAlign='center';x.fillText('لا توجد بيانات',w/2,h/2);return}
-  const mx=Math.max(...a.map((v,i)=>v+b[i]))*1.1||1,mn=Math.max(...n)*1.15||1;
-  x.strokeStyle='#e6ebf2';x.lineWidth=1;x.fillStyle=C.mut;x.font='11px Cairo';
-  for(let i=0;i<=4;i++){const y=T+PH-PH*i/4;x.beginPath();x.moveTo(L,y);x.lineTo(w-R,y);x.stroke();x.textAlign='right';x.fillText(fmtK(mx*i/4),L-6,y);x.textAlign='left';x.fillText(Math.round(mn*i/4),w-R+6,y)}
-  const sw=PW/k,bw=Math.min(34,sw*.62);
-  // RTL: first month on the right
+  // two bands: order-count line on top, cost bars below (no side axes; values written on the chart)
+  const LB=PH*.26,BB=PH-LB-14,BT=T+PH-BB;
+  const mx=Math.max(...a.map((v,i)=>v+b[i]))||1,nMx=Math.max(...n)||1,nMn=Math.min(...n);
+  x.strokeStyle='#e6ebf2';x.lineWidth=1;x.beginPath();x.moveTo(L,T+PH+.5);x.lineTo(w-R,T+PH+.5);x.stroke();
+  const sw=PW/k,bw=Math.min(34,sw*.62),show=i=>sw>=30||i%2===0;
   const cxOf=i=>L+sw*i+sw/2;
-  for(let i=0;i<k;i++){const cx=cxOf(i),ha=a[i]/mx*PH,hb=b[i]/mx*PH;
+  const ny=v=>T+10+(LB-14)*(1-(nMx===nMn?.5:(v-nMn)/(nMx-nMn)));
+  for(let i=0;i<k;i++){const cx=cxOf(i),ha=a[i]/mx*(BB-16),hb=b[i]/mx*(BB-16);
     x.fillStyle=grad(x,cx-bw/2,T+PH-ha,bw,ha,C.teal);rr(x,cx-bw/2,T+PH-ha,bw,ha,hb>0?2:5);
     x.fillStyle=grad(x,cx-bw/2,T+PH-ha-hb,bw,hb,C.amber);rr(x,cx-bw/2,T+PH-ha-hb,bw,hb,5);
+    if(show(i)){x.fillStyle=C.tx;x.textAlign='center';x.font='700 '+(sw>=40?'11':'9.5')+'px Cairo';x.fillText(fmtK(a[i]+b[i]),cx,T+PH-ha-hb-8);
+      if(ha>=18&&sw>=40){x.fillStyle='#ffffff';x.font='600 9.5px Cairo';x.fillText(fmtK(a[i]),cx,T+PH-ha/2)}}
     if(sw>=24||i%2===0){const[yy,mm]=ms[i].split('-');x.fillStyle=C.tx;x.textAlign='center';x.font='600 '+(sw>=46?'11.5':'10')+'px Cairo';x.fillText(sw>=34?MN[+mm-1]:MN[+mm-1].slice(0,4),cx,T+PH+15);x.fillStyle=C.mut;x.font='10px Cairo';x.fillText(yy,cx,T+PH+31);}
     cv._hits.push({X:cx-sw/2,Y:T,W:sw,H:PH+B,tip:`<b>${mLabel(ms[i])}</b><br>PMV: ${fmt(a[i])}<br>وقائية: ${fmt(b[i])}<br>الإجمالي: <b>${fmt(a[i]+b[i])}</b> ريال<br>عدد الأوامر: ${fmt(n[i])}`})}
-  x.strokeStyle=C.blue;x.lineWidth=2.2;x.beginPath();for(let i=0;i<k;i++){const px=cxOf(i),py=T+PH-n[i]/mn*PH;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();
-  for(let i=0;i<k;i++){const px=cxOf(i),py=T+PH-n[i]/mn*PH;x.beginPath();x.arc(px,py,3.2,0,7);x.fillStyle='#ffffff';x.fill();x.strokeStyle=C.blue;x.stroke()}}
-
-
+  x.strokeStyle=C.blue;x.lineWidth=2.2;x.beginPath();for(let i=0;i<k;i++){const px=cxOf(i),py=ny(n[i]);i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();
+  for(let i=0;i<k;i++){const px=cxOf(i),py=ny(n[i]);x.beginPath();x.arc(px,py,3.2,0,7);x.fillStyle='#ffffff';x.fill();x.strokeStyle=C.blue;x.stroke();
+    if(show(i)){x.fillStyle=C.blue;x.textAlign='center';x.font='700 '+(sw>=40?'10.5':'9')+'px Cairo';x.fillText(fmt(n[i]),px,py-10)}}}
 function pareto(cv,vals){const{x,w,h}=setup(cv);bindHits(cv);const n=vals.length;if(!n){x.fillStyle=C.mut;x.textAlign='center';x.fillText('لا توجد بيانات',w/2,h/2);return null}
   const tot=vals.reduce((a,b)=>a+b,0),L=46,R=16,T=14,B=34,PW=w-L-R,PH=h-T-B;let cum=0;const pts=vals.map((v,i)=>{cum+=v;return[(i+1)/n,cum/tot]});
   x.strokeStyle='#e6ebf2';x.fillStyle=C.mut;x.font='11px Cairo';for(let i=0;i<=4;i++){const y=T+PH-PH*i/4;x.beginPath();x.moveTo(L,y);x.lineTo(w-R,y);x.stroke();x.textAlign='right';x.fillText(i*25+'%',L-6,y);x.textAlign='center';x.fillText(i*25+'%',L+PW*i/4,T+PH+16)}
@@ -508,6 +519,77 @@ function radial(cv,items){const{x,w,h}=setup(cv);bindHits(cv);if(w<60||!items.le
 const NO=D.o.length;const oCost=new Float64Array(NO),oLines=new Uint32Array(NO);
 for(const l of D.l){oCost[l[0]]+=l[3];oLines[l[0]]++}
 function sel(o){return o[0]>=F.from&&o[0]<=F.to&&(F.ws<0||o[1]===F.ws)&&(F.tp<0||o[2]===F.tp)&&(F.st<0||o[3]===F.st)&&(F.cu<0||o[4]===F.cu)&&(F.et<0||o[5]===F.et)}
+// ---------- sankey: cost -> year -> workshop -> order type -> parts/consumables ----------
+const oCons=new Float64Array(NO);for(const l of D.l)if(D.it[l[1]][2])oCons[l[0]]+=l[3];
+let SKM='full';
+function skMode(m){SKM=m;document.querySelectorAll('#skBtns .vbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));drawSankey()}
+function skYr(y){return[D.months.findIndex(m=>m.startsWith(y)),D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y))]}
+function skActive(y,ws,tp){const[a,b]=skYr(y);return F.from===a&&F.to===b&&F.ws===(ws==null?-1:ws)&&F.tp===(tp==null?-1:tp)}
+function skFilter(y,ws,tp){if(skActive(y,ws,tp)){F.from=0;F.to=D.months.length-1;F.ws=-1;F.tp=-1}else{const[a,b]=skYr(y);F.from=a;F.to=b;F.ws=ws==null?-1:ws;F.tp=tp==null?-1:tp}syncUI();render()}
+function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!cv.clientWidth)return;const{x,w,h}=setup(cv);bindHits(cv);
+  const yrs=['2025','2026'];let lm=0;
+  D.o.forEach((o,i)=>{if(!sel(o)||oCost[i]<=0)return;const m=D.months[o[0]];if(m.startsWith('2026'))lm=Math.max(lm,+m.slice(5))});
+  const same=SKM==='same'&&lm>0&&lm<12;
+  // tree aggregation
+  const T={v:0,n:0,k:{}};
+  const add=(path,c,cn)=>{let nd=T;nd.v+=c;nd.n+=cn;for(const p of path){nd=nd.k[p]||(nd.k[p]={v:0,n:0,k:{}});nd.v+=c;nd.n+=cn}};
+  D.o.forEach((o,i)=>{if(!sel(o))return;const m=D.months[o[0]],y=m.slice(0,4);if(!yrs.includes(y))return;if(same&&+m.slice(5)>lm)return;const c=oCost[i],cs=oCons[i];
+    add([y,o[1],o[2]],0,1);add([y,o[1],o[2],'p'],c-cs,0);add([y,o[1],o[2],'c'],cs,0)});
+  if(T.v<=0){x.fillStyle=C.mut;x.textAlign='center';x.fillText('لا توجد بيانات',w/2,h/2);if(!noDom){$('skNote').innerHTML='';$('skNote').style.display='none'}return[]}
+  const WSC=['#db2777','#2563eb'],TPC=[C.red,C.grn],CTC={p:C.vio,c:C.amber},YC={'2025':'#475569','2026':'#0f766e'};
+  const nm=(lvl,key,path)=>lvl===1?key+(same?` (${MN[0]} – ${MN[lm-1]})`:key==='2026'&&lm<12?` (حتى ${MN[lm-1]})`:''):lvl===2?D.ws[key]:lvl===3?(key==0?'أعطال PMV':'وقائية'):(key==='p'?'قطع غيار':'مستهلكات');
+  const col=(lvl,key,path)=>lvl===0?'#1b2d55':lvl===1?YC[key]:lvl===2?WSC[key]:lvl===3?TPC[key]:CTC[key];
+  // flatten in order
+  const ord={1:['2025','2026'],2:[0,1],3:[0,1],4:['p','c']};const nodes=[];
+  const walk=(nd,lvl,path,parent)=>{const me={nd,lvl,key:path[path.length-1],path,parent,kids:[]};nodes.push(me);if(parent)parent.kids.push(me);if(lvl<ML)for(const k of ord[lvl+1]){const ch=nd.k[k];if(ch&&ch.v>0)walk(ch,lvl+1,[...path,k],me)}};
+  walk(T,0,['root'],null);
+  const padL=105,padR=165,top=10,bot=10,NW=11;
+  const colX=l=>padL+(w-padR-padL-NW)*l/ML;
+  const leaves=nodes.filter(n=>n.lvl===ML);const G=[0,30,18,10,5].slice(0,ML+1);if(ML<4)G[ML]=8;
+  let gaps=0;for(let i=1;i<leaves.length;i++){let a=leaves[i-1],b=leaves[i],d=ML;while(a.parent!==b.parent){a=a.parent;b=b.parent;d--}gaps+=G[d]}
+  const k=(h-top-bot-gaps)/T.v;
+  let yy=top;leaves.forEach((n,i)=>{if(i){let a=leaves[i-1],b=n,d=ML;while(a.parent!==b.parent){a=a.parent;b=b.parent;d--}yy+=G[d]}n.y0=yy;n.y1=yy+n.nd.v*k;yy=n.y1});
+  for(let l=ML-1;l>=0;l--)nodes.filter(n=>n.lvl===l).forEach(n=>{const a=n.kids[0].y0,b=n.kids[n.kids.length-1].y1,hh=n.nd.v*k,c=(a+b)/2;n.y0=c-hh/2;n.y1=c+hh/2});
+  // links
+  const Lk=[];nodes.forEach(n=>{let off=n.y0;n.kids.forEach(ch=>{const hh=ch.nd.v*k;Lk.push({s:n,t:ch,sy:off,ty:ch.y0,hh});off+=hh})});
+  const xs=n=>colX(n.lvl);
+  Lk.forEach(L=>{const x0=xs(L.s)+NW,x1=xs(L.t),xm=(x0+x1)/2;const c=col(L.t.lvl,L.t.key);
+    x.fillStyle=c+'38';x.beginPath();x.moveTo(x0,L.sy);x.bezierCurveTo(xm,L.sy,xm,L.ty,x1,L.ty);x.lineTo(x1,L.ty+L.hh);x.bezierCurveTo(xm,L.ty+L.hh,xm,L.sy+L.hh,x0,L.sy+L.hh);x.closePath();x.fill();
+    const s=L.s,t=L.t,v=t.nd.v;const pName=s.lvl===0?'إجمالي التكلفة':s.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ');const tName=t.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ');
+    const extra=t.lvl===3&&t.nd.n?`<br>عدد الأوامر: <b>${fmt(t.nd.n)}</b> · متوسط الأمر: <b>${fmt(v/t.nd.n)}</b> ريال`:t.lvl<3&&t.nd.n?`<br>عدد الأوامر: ${fmt(t.nd.n)}`:'';
+    cv._hits.push({t:(mx,my)=>{if(mx<x0||mx>x1)return false;const u=(mx-x0)/(x1-x0),sm=u*u*(3-2*u),yc=L.sy+(L.ty-L.sy)*sm;return my>=yc-1&&my<=yc+Math.max(L.hh,3)+1},
+      tip:`<b>${tName}</b><br>${fmt(v)} ريال<br>${pct(v/s.nd.v)} من ${pName} · ${pct(v/T.v)} من الإجمالي${extra}`})});
+  // nodes + labels
+  x.textBaseline='middle';
+  for(let l=0;l<=ML;l++){const cs=nodes.filter(n=>n.lvl===l);cs.forEach(n=>{const hh=n.y1-n.y0;n.two=hh>=24||l===0;n.lh=n.two?30:13;n.cy=(n.y0+n.y1)/2});
+    for(let i=1;i<cs.length;i++){const a=cs[i-1],b=cs[i],mn=(a.lh+b.lh)/2+1;if(b.cy-a.cy<mn)b.cy=a.cy+mn}
+    const last=cs[cs.length-1];if(last&&last.cy+last.lh/2>h-2){last.cy=h-2-last.lh/2;for(let i=cs.length-2;i>=0;i--){const a=cs[i],b=cs[i+1],mn=(a.lh+b.lh)/2+1;if(b.cy-a.cy<mn)a.cy=b.cy-mn}}}
+  nodes.forEach(n=>{const X=xs(n),hh=Math.max(1.5,n.y1-n.y0);x.fillStyle=col(n.lvl,n.key);x.fillRect(X,n.y0,NW,hh);if(n.lvl>=1&&n.lvl<=3&&skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)){x.strokeStyle='#f4c542';x.lineWidth=3;x.strokeRect(X-2,n.y0-2,NW+4,hh+4)}
+    const label=n.lvl===0?'إجمالي التكلفة':nm(n.lvl,n.key);const val=fmtK(n.nd.v)+(n.parent?' · '+pct(n.nd.v/n.parent.nd.v):'');
+    const cy=n.cy;const tx=n.lvl===0?X-6:X+NW+6;
+    x.lineWidth=3;x.strokeStyle='#ffffffe6';x.lineJoin='round';
+    const two=n.two;x.direction='rtl';x.textAlign=n.lvl===0?'right':'left';
+    x.font=`700 ${n.lvl>=4?11:12}px Cairo,Segoe UI,Tahoma`;
+    if(two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`${n.lvl>=4?10.5:11.5}px Cairo,Segoe UI,Tahoma`;const vv='\u2066'+val+'\u2069';x.strokeText(vv,tx,cy+8);x.fillStyle='#6b7a90';x.fillText(vv,tx,cy+8)}
+    else{const s=label+'  \u2066'+val+'\u2069';x.strokeText(s,tx,cy);x.fillStyle='#1e2b45';x.fillText(s,tx,cy)}
+    const tip=`<b>${n.lvl===0?'إجمالي التكلفة':n.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ')}</b><br>${fmt(n.nd.v)} ريال${n.parent?'<br>'+pct(n.nd.v/n.parent.nd.v)+' من المستوى السابق':''}<br>${pct(n.nd.v/T.v)} من الإجمالي${n.lvl<=3&&n.nd.n?'<br>عدد الأوامر: '+fmt(n.nd.n):''}${n.lvl>=1&&n.lvl<=3?'<br><span style="color:#0d9488">'+(skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)?'الفلتر مطبّق — اضغط مرة أخرى لإلغائه':'اضغط لتطبيقه كفلتر على اللوحة')+'</span>':''}`;
+    const p=n.path;const click=n.lvl>=1&&n.lvl<=3?()=>skFilter(p[1],n.lvl>=2?p[2]:null,n.lvl>=3?p[3]:null):null;
+    cv._hits.unshift({X:X-2,Y:n.y0-2,W:NW+4,H:hh+4,tip,click})});
+  x.direction='inherit';x.font='12px Cairo,Segoe UI,Tahoma';
+  // note
+  const g=(y,ws,tp)=>{const a=T.k[y],b=a&&a.k[ws],c=b&&tp!=null?b.k[tp]:b;return c?c.v:0};
+  const notes=[];
+  if(T.k['2025']&&T.k['2026']){const d=(T.k['2026'].v-T.k['2025'].v)/T.k['2025'].v;notes.push(`إجمالي ${same?'نفس الفترة':'التكلفة'}: 2026 = <b>${fmtK(T.k['2026'].v)}</b> مقابل 2025 = <b>${fmtK(T.k['2025'].v)}</b> <span dir="ltr" style="unicode-bidi:isolate;color:${d>0?C.red:C.grn}">(${d>0?'▲ +':'▼ '}${pct(Math.abs(d))})</span>${same?'':' — تنبيه: 2026 سنة غير مكتملة'}.`);
+    const ch=[];D.ws.forEach((wn,wi)=>[0,1].forEach(tp=>{const a=g('2025',wi,tp),b=g('2026',wi,tp);if(a>0)ch.push({wn,tp,a,b,d:(b-a)/a})}));
+    if(same&&ch.length){ch.sort((p,q)=>q.d-p.d);const up=ch[0],dn=ch[ch.length-1];
+      if(up.d>0)notes.push(`أعلى زيادة: <b>${up.tp?'الوقائية':'الأعطال PMV'} في ورشة ${up.wn}</b> من ${fmtK(up.a)} إلى ${fmtK(up.b)} <span dir="ltr" style="unicode-bidi:isolate;color:${C.red}">(▲ +${pct(up.d)})</span>.`);
+      if(dn.d<0)notes.push(`أكبر انخفاض: <b>${dn.tp?'الوقائية':'الأعطال PMV'} في ورشة ${dn.wn}</b> من ${fmtK(dn.a)} إلى ${fmtK(dn.b)} <span dir="ltr" style="unicode-bidi:isolate;color:${C.grn}">(▼ ${pct(Math.abs(dn.d))})</span>.`)}}
+  let pv=0,pvp=0,pm=0,pmp=0;for(const y in T.k)for(const ws in T.k[y].k)for(const tp in T.k[y].k[ws].k){const t=T.k[y].k[ws].k[tp],pp=t.k.p?t.k.p.v:0;if(tp==1){pv+=t.v;pvp+=pp}else{pm+=t.v;pmp+=pp}}
+  if(pv>0&&pm>0)notes.push(`قطع الغيار تمثل <b>${pct(pmp/pm)}</b> من تكلفة الأعطال و<b>${pct(pvp/pv)}</b> فقط من تكلفة الوقائية (الباقي زيوت وفلاتر ومستهلكات)${pvp/pv>.25?' — نسبة قطع الغيار في الوقائية مرتفعة، وقد تعني أعطالاً مسجلة كوقائية':''}.`);
+  if(noDom)return notes;$('skNote').innerHTML=notes.map(t=>`<div>• ${t}</div>`).join('');$('skNote').style.display=notes.length?'':'none';
+  $('skSub').textContent=T.k['2026']&&lm<12?`يتبع الفلاتر أعلاه · بيانات 2026 حتى ${MN[lm-1]} فقط`:'يتبع الفلاتر أعلاه';
+}
+
 let eqRows=[],eqSort={k:6,d:-1};
 function render(){
   const mask=new Uint8Array(NO);CUR_MASK=mask;let nO=0,nOpen=0,nNo=0,cost=0,costT=[0,0],nT=[0,0];
@@ -644,8 +726,12 @@ function render(){
   const A={R:[0,0,0],N:[0,0,0]};for(const t in g){if(g[t].R[0]&&g[t].N[0])['R','N'].forEach(s=>{for(let j=0;j<3;j++)A[s][j]+=g[t][s][j]})}
   const rF=A.R[1]/Math.max(1,A.R[0]),nF=A.N[1]/Math.max(1,A.N[0]),rC=A.R[2]/Math.max(1,A.R[0]),nC=A.N[2]/Math.max(1,A.N[0]);
   $('pvSub').textContent=`مقارنة داخل نفس أنواع المعدات: ${fmt(A.R[0])} معدة بصيانة وقائية منتظمة (أمران وقائيان فأكثر) مقابل ${fmt(A.N[0])} معدة بدون أي وقائية`;
-  $('pvCmp').innerHTML=`<div class="bx"><div class="t">متوسط أعطال PMV للمعدة</div><div class="v"><span style="color:${C.teal}">${rF.toFixed(1)}</span> <span style="color:#6b7a90;font-size:14px">مقابل</span> <span style="color:${C.red}">${nF.toFixed(1)}</span></div><div class="s">وقائية منتظمة · بدون وقائية</div></div><div class="bx"><div class="t">متوسط تكلفة الأعطال للمعدة</div><div class="v"><span style="color:${C.teal}">${fmtK(rC)}</span> <span style="color:#6b7a90;font-size:14px">مقابل</span> <span style="color:${C.red}">${fmtK(nC)}</span></div><div class="s">وقائية منتظمة · بدون وقائية</div></div>`;
+  const pvRows=[['متوسط أعطال PMV للمعدة',rF,nF,v=>`<bdi dir="ltr">${v.toFixed(1)}</bdi> <small>عطل</small>`],['متوسط تكلفة الأعطال للمعدة',rC,nC,v=>`<bdi dir="ltr">${fmtK(v)}</bdi> <small>ريال</small>`],['متوسط تكلفة العطل الواحد',rC/Math.max(.0001,rF),nC/Math.max(.0001,nF),v=>`<bdi dir="ltr">${fmtK(v)}</bdi> <small>ريال</small>`]];
+  $('pvCmp').innerHTML=`<div class="pvLg"><span><i style="background:${C.teal}"></i>وقائية منتظمة <b>${fmt(A.R[0])}</b> معدة</span><span><i style="background:#94a3b8"></i>بدون وقائية <b>${fmt(A.N[0])}</b> معدة</span></div>`+pvRows.map(([t,a,b,f])=>{const m=Math.max(a,b,1e-9),r=b>0?a/b:0;return`<div class="pvR"><div class="pvH"><span>${t}</span><span class="pvX">${b>0&&a>0?'أعلى <bdi dir="ltr">'+(a>=b?r:1/r).toFixed(1)+'</bdi> مرة':''}</span></div>
+    <div class="pvB"><span class="pvN">وقائية منتظمة</span><div class="pvT"><div style="width:${(a/m*100).toFixed(1)}%;background:${C.teal}"></div></div><b style="color:${C.teal}">${f(a)}</b></div>
+    <div class="pvB"><span class="pvN">بدون وقائية</span><div class="pvT"><div style="width:${(b/m*100).toFixed(1)}%;background:#94a3b8"></div></div><b style="color:#475569">${f(b)}</b></div></div>`}).join('');
   $('pvNote').textContent=rF>nF?'المعدات المنتظمة وقائياً أعطالها أكثر، وهذا غالباً لأنها الأكثر تشغيلاً فتدخل الورشة أكثر في الحالتين، وليس لأن الوقائية بلا فائدة. لا يمكن الحكم على أثر الوقائية بعدالة بدون ساعات التشغيل لكل معدة؛ عند إضافتها تتحول المقارنة إلى أعطال لكل 1000 ساعة تشغيل.':'المعدات المنتظمة وقائياً أعطالها وتكلفتها أقل من غير المنتظمة داخل نفس الأنواع، وهذا مؤشر على جدوى الوقائية. للتأكيد يُفضّل ربطها بساعات التشغيل.';
+  drawSankey();
   // hero
   // YoY window: months of the latest year inside the selected range (up to last month with cost) vs same months a year earlier
   let LmY=-1;for(let i=F.to;i>=F.from;i--)if(mAll[i]>0){LmY=i;break}
@@ -819,6 +905,7 @@ const INFO={
  chWait:['متوسط انتظار قطع الغيار','هل التأخير بسبب توفر القطع من المخزن؟','متوسط (تاريخ أول صرف − تاريخ فتح الأمر) لكل موقع.'],
  chPrev:['نسبة الصيانة الوقائية','مدى اعتماد كل موقع على الصيانة المجدولة بدل انتظار الأعطال.','عدد الأوامر الوقائية ÷ إجمالي أوامر الموقع.'],
  chScore:['نسبة أداء المواقع','درجة كل موقع من 100 بنفس طريقة درجة الورش.','مدة الإنجاز 30% (7 أيام فأقل = 100، 14 فأكثر = 0) + الوقائية 25% (50% فأكثر = 100، 30% فأقل = 0) + إعادة صرف القطع 25% (10% فأقل = 100، 20% فأكثر = 0) + الأوامر المتأخرة 20% (0.5 لكل 100 فأقل = 100، 2 فأكثر = 0).'],
+ chSk:['مسار تكلفة الصيانة','إلى أين تذهب تكلفة الصيانة: أي سنة، أي ورشة، أعطال أم وقائية، قطع غيار أم مستهلكات.','عرض «نفس الفترة» يقارن نفس الأشهر في السنتين (من يناير حتى آخر شهر له تكلفة في 2026) وهو الأعدل. «السنة كاملة» يعرض 2025 كاملة و2026 حتى آخر شهر متاح. سمك كل مسار = التكلفة بالريال. المستهلكات = الأصناف المصنفة زيوت وفلاتر وشحوم ونحوها. الأشهر حسب تاريخ فتح الأمر.'],
  chPar:['تحليل باريتو','هل التكلفة موزعة على كل المعدات أم متركزة في عدد قليل منها؟','نرتب المعدات من الأعلى تكلفة، والمنحنى يوضح النسبة التراكمية من التكلفة. النقطة الصفراء = عدد المعدات التي تصل إلى 80% من التكلفة.'],
  chYoy:['مقارنة 2025 مع 2026','تكلفة كل شهر في السنتين جنباً إلى جنب.','الشهر حسب تاريخ فتح الأمر. أوامر أكتوبر 2026 بدون تكلفة تقريباً لأن ملف المنصرف يغطي حتى سبتمبر.'],
  chAvg:['متوسط التكلفة لكل معدة حسب النوع','مقارنة عادلة بين الأنواع بغض النظر عن عدد معدات كل نوع.','إجمالي تكلفة النوع ÷ عدد معداته التي دخلت الصيانة.'],
@@ -846,17 +933,19 @@ document.addEventListener('click',e=>{const el=e.target.closest('.ii');document.
   if(el){e.stopPropagation();if(tipLock===el){tipLock=null;tip.style.display='none';return}tipLock=el;el.classList.add('act');showInfo(el)}else if(tipLock){tipLock=null;tip.style.display='none'}});
 window.addEventListener('scroll',()=>{if(tipLock){tipLock.classList.remove('act');tipLock=null;tip.style.display='none'}},{passive:true});
 
-$('printBtn').onclick=()=>{const strip=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
-  const hero=[...document.querySelectorAll('#pgExec .hero .kpi')].map(k=>`<div><div class="l">${k.querySelector('.l').textContent}</div><div class="v">${k.querySelector('.v').innerHTML}</div><div class="s">${k.querySelector('.s').textContent}</div></div>`).join('');
+$('printBtn').onclick=()=>{const sk={img:'',notes:[],sub:''};try{const c=document.createElement('canvas');c.setAttribute('height','380');c.style.cssText='position:absolute;left:-10000px;top:0;width:1000px;height:380px';document.body.appendChild(c);const nt=drawSankey(c,3,true)||[];sk.notes=nt;sk.sub=$('skSub').textContent.replace('يتبع الفلاتر أعلاه · ','').replace('يتبع الفلاتر أعلاه','');sk.img=c.toDataURL('image/png');c.remove()}catch(e){}
+  const strip=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
+  const hero=[...document.querySelectorAll('#pgExec .hero .kpi')].map(k=>`<div style="--kc:${getComputedStyle(k).getPropertyValue('--c').trim()||'#0d9488'}"><div class="l">${k.querySelector('.l').textContent}</div><div class="v">${k.querySelector('.v').innerHTML}</div><div class="s">${k.querySelector('.s').textContent}</div></div>`).join('');
   const act=$('selInfo').textContent,per=`${mLabel(D.months[F.from])} — ${mLabel(D.months[F.to])}`;const LC={g:'#16a34a',a:'#d97706',r:'#dc2626',n:'#94a3b8'};
-  $('printPage').innerHTML=`<div class="ph"><div><h1>الملخص التنفيذي — تكاليف الصيانة وقطع الغيار</h1><div style="font-size:10.5px;color:#55657e">مصدر البيانات: <b>اسكون</b> • إعداد التقرير: <b>حازم حسن</b></div></div><div class="pm">الفترة: <b>${per}</b><br>${act}<br>تاريخ الطباعة: ${new Date().toISOString().slice(0,10)}</div></div>
+  $('printPage').innerHTML=`<div class="ph"><div><h1>الملخص التنفيذي — تكاليف الصيانة وقطع الغيار</h1><div style="font-size:10.5px;color:#55657e">مصدر البيانات: <b style="font-size:12px">الأستاذ / أحمد خلف</b> • إعداد التقرير: <b style="font-size:12px">حازم حسن</b></div></div><div class="pm">الفترة: <b>${per}</b><br>${act}<br>تاريخ الطباعة: ${new Date().toISOString().slice(0,10)}</div></div>
   <h2>الأرقام الرئيسية</h2><div class="pk">${hero}</div>
+  ${sk.img?`<h2>مسار تدفق التكلفة</h2><div class="psk"><img src="${sk.img}" alt="">${sk.sub?`<div class="pskS">${sk.sub}</div>`:''}${sk.notes.length?`<div class="pskN">${sk.notes.map(t=>`<div>• ${t}</div>`).join('')}</div>`:''}</div>`:''}
   ${EX.news?`<h2>آخر شهر</h2><div style="font-size:10.5px">${EX.news}</div>`:''}
   <h2>الحكم على حالة الصيانة</h2><div class="vd">${EX.verd.map(v=>`<div style="--lc:${LC[v[3]]}">${v[0]}<b>${v[2]}</b></div>`).join('')}</div>
   <h2>أكبر 3 مخاطر بالريال</h2><table><tr><th>البند</th><th>المبلغ (ريال)</th><th>التوضيح</th></tr>${EX.risks.slice(0,3).map(r=>`<tr><td><b>${r[0]}</b></td><td style="white-space:nowrap"><b>${fmt(r[1])}</b></td><td>${strip(r[2])}</td></tr>`).join('')}</table>
   <h2>القرارات المطلوبة</h2><ol>${EX.recs.slice(0,3).map(r=>`<li>${r}</li>`).join('')}</ol>
   <h2>مقارنة الورشتين</h2><table><tr><th>المؤشر</th>${EX.scH.map(h=>`<th>${h}</th>`).join('')}</tr>${EX.sc.map(r=>`<tr><td><b>${r[0]}</b></td>${r.slice(1).map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table>
-  <div class="pf">مصدر البيانات: اسكون • إعداد التقرير: حازم حسن. التكلفة = قطع الغيار المصروفة فقط (لا تشمل العمالة والورش الخارجية). معايير الألوان والدرجات افتراضية قابلة للتعديل. التفاصيل الكاملة في اللوحة التفاعلية.</div>`;
+  <div class="pf">مصدر البيانات: الأستاذ / أحمد خلف • إعداد التقرير: حازم حسن. التكلفة = قطع الغيار المصروفة فقط (لا تشمل العمالة والورش الخارجية). معايير الألوان والدرجات افتراضية قابلة للتعديل. التفاصيل الكاملة في اللوحة التفاعلية.</div>`;
   setTimeout(()=>window.print(),100)};
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
 syncUI();render();
