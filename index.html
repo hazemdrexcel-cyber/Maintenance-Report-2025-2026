@@ -23,7 +23,8 @@ header .pill{background:#ffffff14;border-color:#ffffff33;color:#c9d5ec}header .p
 button{font-family:inherit;cursor:pointer}
 .btn{background:#ffffff14;border:1px solid #ffffff44;color:#fff;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600}
 .btn:hover{border-color:#ffb15c;background:#ffffff22}
-.filters{display:grid;grid-template-columns:repeat(8,1fr) auto;gap:10px;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:18px;position:sticky;top:8px;z-index:20;box-shadow:0 6px 18px #2f485814}
+.filters{display:grid;grid-template-columns:repeat(8,1fr) auto;gap:10px;background:#fff;border:1px solid #d5dde8;border-right:6px solid #2f4858;border-radius:16px;padding:14px 16px;margin-bottom:18px;position:sticky;top:8px;z-index:20;box-shadow:0 10px 26px #2f485833}
+.filters .f label{color:#2f4858}.filters .f select,.filters .ssBtn{background:#f4f7fa;border-color:#d5dde8}
 .f label{display:block;font-size:11.5px;color:var(--mut);margin-bottom:5px;font-weight:600}
 .f select{width:100%;background:#ffffff;color:var(--tx);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none}
 .ss{position:relative}.ssBtn{width:100%;text-align:right;background:#fff;color:var(--tx);border:1px solid var(--line);border-radius:9px;padding:8px 10px 8px 28px;font-family:inherit;font-size:13px;cursor:pointer;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ssBtn::after{content:'';position:absolute;left:11px;top:50%;width:6px;height:6px;border-left:1.6px solid #1e2b45;border-bottom:1.6px solid #1e2b45;transform:translateY(-70%) rotate(-45deg)}.ss.open .ssBtn,.ssBtn:focus{border-color:var(--teal);outline:none}.ssP{display:none;position:absolute;top:calc(100% + 4px);right:0;min-width:100%;width:280px;max-width:90vw;background:#fff;border:1px solid #cfd9e7;border-radius:10px;box-shadow:0 14px 34px #2f485833;z-index:60;padding:8px}.ss.open .ssP{display:block}.ssP input{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-family:inherit;font-size:13px;outline:none;margin-bottom:6px}.ssP input:focus{border-color:var(--teal)}.ssL{max-height:280px;overflow:auto}.ssI{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;font-size:13px;cursor:pointer;color:var(--tx)}.ssI:hover,.ssI.hl{background:#eef4fb}.ssI.on{background:#e6f3f1;color:#0f766e;font-weight:700}.ssI .c{font-size:11px;color:var(--mut);background:#f1f4f8;border-radius:10px;padding:1px 7px;flex:none}.ssE{padding:10px;font-size:12.5px;color:var(--mut);text-align:center}
@@ -126,7 +127,7 @@ h3 .ii{margin-inline-start:auto}
 .mbox{background:linear-gradient(170deg,var(--card2),var(--card));border:1px solid #cfd9e7;border-radius:18px;padding:16px 18px;width:min(1250px,100%);max-height:90vh;box-shadow:0 30px 80px #2f485855}
 .mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
 .mhead h3{font-size:16px;font-weight:800}
-#mdl th{white-space:normal;max-width:130px;line-height:1.45;vertical-align:bottom}#mdl td{max-width:260px}#mdl td.n{white-space:nowrap}.mbtns{display:flex;gap:8px;flex:none}
+#mdl th{white-space:normal;max-width:130px;line-height:1.45;vertical-align:bottom}#mdl td{max-width:260px}#mdl td.n{white-space:nowrap}.mbtns{display:flex;gap:8px;flex:none;align-items:center}.mflt{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut);font-weight:700}.mflt select{border:1px solid var(--line);border-radius:9px;padding:6px 10px;font-family:inherit;font-size:12.5px;background:#fff;color:var(--tx)}
 .mbtns .btn{background:#eef4fb;border:1px solid #cfd9e7;color:#1e3a8a;border-radius:10px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer}.mbtns .btn:hover{border-color:var(--teal);color:var(--teal);background:#eef4fb}.mbtns #mCsv{background:#107c41;border-color:#107c41;color:#fff}.mbtns #mCsv:hover{background:#0b5f31;border-color:#0b5f31;color:#fff}
 .vbtn{background:#eef4fb;border:1px solid #cfd9e7;color:#1e3a8a;border-radius:8px;padding:4px 10px;font-size:11.5px;font-weight:700;white-space:nowrap}
 #skBtns .vbtn.on{background:#2f4858;border-color:#2f4858;color:#fff}
@@ -373,7 +374,7 @@ header{flex-direction:column;align-items:stretch;gap:10px}
 
 
 </script>
-<div id="mdl" class="mdl"><div class="mbox"><div class="mhead"><div><h3 id="mTitle"></h3><div class="sub" id="mSub"></div></div><div class="mbtns"><button class="btn" id="mCsv">⬇ تحميل Excel</button><button class="btn" id="mClose">✕ إغلاق</button></div></div>
+<div id="mdl" class="mdl"><div class="mbox"><div class="mhead"><div><h3 id="mTitle"></h3><div class="sub" id="mSub"></div></div><div class="mbtns"><div id="mFlt" class="mflt" style="display:none"></div><button class="btn" id="mCsv">⬇ تحميل Excel</button><button class="btn" id="mClose">✕ إغلاق</button></div></div>
 <div class="tbl" style="max-height:66vh"><table><thead id="mHead"></thead><tbody id="mBody"></tbody></table></div></div></div>
 
 <script>
@@ -396,10 +397,11 @@ fillSel($('fFrom'),D.months.map(mLabel));fillSel($('fTo'),D.months.map(mLabel));
 fillSel($('fWs'),D.ws,'كل الورش');fillSel($('fTp'),TP,'الكل');fillSel($('fSt'),STN,'الكل');fillSel($('fCu'),D.cu,'كل الشركات');fillSel($('fEt'),D.et,'كل الأنواع');
 const YRS=[...new Set(D.months.map(m=>m.slice(0,4)))];
 $('fYr').innerHTML='<option value="-1">كل السنوات</option>'+YRS.map((y,i)=>`<option value="${i}">${y}</option>`).join('')+'<option value="-2" hidden>فترة مخصصة</option>';
-function syncYr(){const a=D.months[F.from],b=D.months[F.to];if(F.from===0&&F.to===D.months.length-1){$('fYr').value='-1';return}const y=a.slice(0,4);const yi=YRS.indexOf(y);const f=D.months.findIndex(m=>m.startsWith(y)),l=D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y));$('fYr').value=(b.startsWith(y)&&F.from===f&&F.to===l)?yi:'-2'}
+function syncYr(){const a=D.months[F.from],b=D.months[F.to];if(F.from===0&&F.to===D.months.length-1){$('fYr').value='-1';return}const y=a.slice(0,4);const yi=YRS.indexOf(y);const f=D.months.findIndex(m=>m.startsWith(y)),l=D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y));$('fYr').value=b.startsWith(y)?yi:'-2'}
 $('fYr').addEventListener('change',e=>{const v=+e.target.value;if(v===-1){F.from=0;F.to=D.months.length-1}else if(v>=0){const y=YRS[v];F.from=D.months.findIndex(m=>m.startsWith(y));F.to=D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y))}syncUI();render()});
 const map={fFrom:'from',fTo:'to',fWs:'ws',fTp:'tp',fSt:'st',fCu:'cu',fEt:'et'};
-function syncUI(){for(const id in map)$(id).value=F[map[id]];syncYr();if(typeof ssSync==='function')ssSync()}
+function syncMonths(){const a=D.months[F.from].slice(0,4),b=D.months[F.to].slice(0,4),y=a===b?a:null;const key=y||'*';if(syncMonths.k===key)return;syncMonths.k=key;const opts=D.months.map((m,i)=>[m,i]).filter(([m])=>!y||m.startsWith(y)).map(([m,i])=>`<option value="${i}">${mLabel(m)}</option>`).join('');$('fFrom').innerHTML=opts;$('fTo').innerHTML=opts}
+function syncUI(){syncMonths();for(const id in map)$(id).value=F[map[id]];syncYr();if(typeof ssSync==='function')ssSync()}
 for(const id in map)$(id).addEventListener('change',e=>{F[map[id]]=+e.target.value;if(F.from>F.to){if(id==='fFrom')F.to=F.from;else F.from=F.to}syncUI();render()});
 $('resetBtn').onclick=()=>{Object.assign(F,{from:0,to:D.months.length-1,ws:-1,si:-1,tp:-1,st:-1,cu:-1,et:-1});syncUI();render()};
 function setF(k,v){F[k]=(F[k]===v?-1:v);syncUI();render()}
@@ -501,16 +503,19 @@ function scatter(cv,pts,tx,ty){const{x,w,h}=setup(cv);bindHits(cv);if(!pts.lengt
 
 // ---------- modal ----------
 let MDL=null;
-function openModal(title,sub,head,rows,num){MDL={title,head,rows};$('mTitle').textContent=title;$('mSub').textContent=sub||(fmt(rows.length)+' سجل');
+function openModal(title,sub,head,rows,num,flt){MDL={title,head,rows,all:rows,num,sub:sub||'',flt:flt||null};$('mTitle').textContent=title;
   $('mHead').innerHTML='<tr>'+head.map(h=>`<th>${h}</th>`).join('')+'</tr>';
+  const fe=$('mFlt');if(flt){const vals=[...new Set(rows.map(r=>r[flt.col]))];fe.innerHTML=`<label>${flt.label||head[flt.col]}</label><select id="mFltS"><option value="">الكل (${fmt(rows.length)})</option>${vals.map(v=>`<option value="${v}">${v} (${fmt(rows.filter(r=>r[flt.col]===v).length)})</option>`).join('')}</select>`;fe.style.display='';$('mFltS').onchange=e=>{const v=e.target.value;MDL.rows=v?MDL.all.filter(r=>r[flt.col]===v):MDL.all;mdlDraw()}}else{fe.innerHTML='';fe.style.display='none'}
+  mdlDraw();$('mdl').classList.add('on')}
+function mdlDraw(){const{rows,head,num}=MDL;const f=MDL.flt&&$('mFltS')&&$('mFltS').value;
+  $('mSub').textContent=(f?`${fmt(rows.length)} من ${fmt(MDL.all.length)} — ${MDL.flt.label||head[MDL.flt.col]}: ${f}`:(MDL.sub||(fmt(rows.length)+' سجل')));
   const LIM=1500,shown=rows.length>LIM?rows.slice(0,LIM):rows;if(rows.length>LIM)$('mSub').textContent+=` · يعرض أول ${fmt(LIM)} سطر هنا، وملف Excel فيه كل السطور`;
-  $('mBody').innerHTML=rows.length?shown.map(r=>'<tr>'+r.map((v,j)=>`<td class="${(num||[]).includes(j)?'n':''}">${typeof v==='number'?(Number.isInteger(v)?fmt(v):v.toLocaleString('en-US',{maximumFractionDigits:2})):(v??'')}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${head.length}" class="empty">لا توجد بيانات</td></tr>`;
-  $('mdl').classList.add('on')}
+  $('mBody').innerHTML=rows.length?shown.map(r=>'<tr>'+r.map((v,j)=>`<td class="${(num||[]).includes(j)?'n':''}">${typeof v==='number'?(Number.isInteger(v)?fmt(v):v.toLocaleString('en-US',{maximumFractionDigits:2})):(v??'')}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${head.length}" class="empty">لا توجد بيانات</td></tr>`}
 $('mClose').onclick=()=>$('mdl').classList.remove('on');$('mdl').addEventListener('click',e=>{if(e.target.id==='mdl')$('mdl').classList.remove('on')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$('mdl').classList.remove('on')});
 function csvDL(title,head,rows){const q=v=>{v=((v??'')+'').replace(/[\u2066-\u2069]/g,'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
   const csv='﻿'+[head,...rows].map(r=>r.map(q).join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=title.replace(/[\\/:*?"<>|]/g,'')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-$('mCsv').onclick=()=>{if(MDL)csvDL(MDL.title,MDL.head,MDL.rows)};
+$('mCsv').onclick=()=>{if(MDL){const f=MDL.flt&&$('mFltS')&&$('mFltS').value;csvDL(MDL.title+(f?' - '+f:''),MDL.head,MDL.rows)}};
 const XP={};
 const XC={};
 const ORH=['المعدة','نوع المعدة','رقم الأمر','تاريخ الأمر','تاريخ الانتهاء','الورشة','نوع الأمر','حالة الأمر','الشركة المستفيدة','تكلفة المنصرف'];
@@ -544,7 +549,9 @@ for(const l of D.l){oCost[l[0]]+=l[3];oLines[l[0]]++}
 function sel(o){return o[0]>=F.from&&o[0]<=F.to&&(F.ws<0||o[1]===F.ws)&&(F.tp<0||o[2]===F.tp)&&(F.st<0||o[3]===F.st)&&(F.cu<0||o[4]===F.cu)&&(F.et<0||o[5]===F.et)}
 // ---------- sankey: cost -> year -> workshop -> order type -> parts/consumables ----------
 const oCons=new Float64Array(NO);for(const l of D.l)if(D.it[l[1]][2])oCons[l[0]]+=l[3];
-let SKM='full';let SK_T=null;XC.k8=()=>{const dt=v=>new Date(v).getTime(),DAY=864e5,R=dt(D.ref);xO('أوامر بدون منصرف — لم يُصرف عليها أي صنف من المخزن',i=>!oLines[i],[['عمر الأمر (يوم)',i=>{const o=D.o[i];return Math.max(0,Math.round(((o[3]&&o[8]?dt(o[8]):R)-dt(o[9]))/DAY))}]],(a,b)=>(D.o[a][3]-D.o[b][3])||(D.o[a][9]<D.o[b][9]?-1:1));let op=0,cl=0;for(let i=0;i<NO;i++)if(CUR_MASK[i]&&!oLines[i])D.o[i][3]?cl++:op++;$('mSub').textContent=`${fmt(op+cl)} أمر · ${fmt(op)} تحت التشغيل · ${fmt(cl)} منتهي — مرتبة: المفتوح أولاً من الأقدم — داخل الفلتر الحالي`};
+let SKM='full';let SK_T=null;XC.k8=()=>{const dt=v=>new Date(v).getTime(),DAY=864e5,R=dt(D.ref);const ids=[];for(let i=0;i<NO;i++)if(CUR_MASK[i]&&!oLines[i])ids.push(i);ids.sort((a,b)=>(D.o[a][3]-D.o[b][3])||(D.o[a][9]<D.o[b][9]?-1:1));
+  const rows=ids.map(i=>{const o=D.o[i];return[D.eq[o[6]][0],D.et[o[5]],o[7],o[9],o[8]||'—',Math.max(0,Math.round(((o[3]&&o[8]?dt(o[8]):R)-dt(o[9]))/DAY)),D.ws[o[1]],TP[o[2]],STN[o[3]?1:0],D.cu[o[4]]]});const op=ids.filter(i=>!D.o[i][3]).length;
+  openModal('أوامر بدون منصرف — لم يُصرف عليها أي صنف من المخزن',`${fmt(rows.length)} أمر · ${fmt(op)} تحت التشغيل · ${fmt(rows.length-op)} منتهي — المفتوح أولاً من الأقدم — داخل الفلتر الحالي`,['المعدة','نوع المعدة','رقم الأمر','تاريخ الأمر','تاريخ الانتهاء','عمر الأمر (يوم)','الورشة','نوع الأمر','حالة الأمر','الشركة المستفيدة'],rows,[2,3,4,5],{col:8,label:'حالة الأمر'})};
 
 XC.chSk=()=>{if(!SK_T)return;const T=SK_T.T,rows=[];for(const y of ['2025','2026']){const Y=T.k[y];if(!Y)continue;for(const w of [0,1]){const W=Y.k[w];if(!W)continue;for(const tp of [0,1]){const P=W.k[tp];if(!P)continue;const p=P.k.p?P.k.p.v:0,c=P.k.c?P.k.c.v:0;rows.push([y,D.ws[w],tp?'وقائية':'أعطال PMV',Math.round(p),Math.round(c),Math.round(P.v),pct(P.v/W.v),pct(P.v/T.v),P.n])}}}
   openModal('مسار تدفق التكلفة — تفاصيل المسارات',`إجمالي ${fmt(T.v)} ريال — داخل الفلتر الحالي${SK_T.lm<12?' · بيانات 2026 حتى '+MN[SK_T.lm-1]:''}`,['السنة','الورشة','نوع الصيانة','قطع غيار','مستهلكات','الإجمالي','النسبة من الورشة','النسبة من الإجمالي','عدد الأوامر'],rows,[3,4,5,8])};
@@ -611,10 +618,10 @@ function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!cv
   nodes.forEach(n=>{const X=xs(n),hh=Math.max(1.5,n.y1-n.y0);x.fillStyle=col(n.lvl,n.key);x.fillRect(X,n.y0,NW,hh);if(n.lvl>=1&&n.lvl<=3&&skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)){x.strokeStyle='#ffb15c';x.lineWidth=3;x.strokeRect(X-2,n.y0-2,NW+4,hh+4)}
     const label=n.lvl===0?'إجمالي التكلفة':nm(n.lvl,n.key);const val=fmtK(n.nd.v)+(n.parent?' · '+pct(n.nd.v/n.parent.nd.v):'');
     const cy=n.cy;const tx=n.lvl===0?X-6:X+NW+6;
-    x.lineWidth=4;x.strokeStyle='#ffffff';x.lineJoin='round';
+    x.lineWidth=3;x.strokeStyle='#ffffffe6';x.lineJoin='round';
     const two=n.two;x.direction='rtl';x.textAlign=n.lvl===0?'right':'left';
-    x.font=`800 ${n.lvl>=4?12:13.5}px Cairo,Segoe UI,Tahoma`;
-    if(two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`700 ${n.lvl>=4?11.5:12.5}px Cairo,Segoe UI,Tahoma`;const vv='\u2066'+val+'\u2069';x.strokeText(vv,tx,cy+9);x.fillStyle='#2f4858';x.fillText(vv,tx,cy+9)}
+    x.font=`700 ${n.lvl>=4?11:12}px Cairo,Segoe UI,Tahoma`;
+    if(two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`${n.lvl>=4?10.5:11.5}px Cairo,Segoe UI,Tahoma`;const vv='\u2066'+val+'\u2069';x.strokeText(vv,tx,cy+8);x.fillStyle='#1e2b45';x.fillText(vv,tx,cy+8)}
     else{const s=label+'  \u2066'+val+'\u2069';x.strokeText(s,tx,cy);x.fillStyle='#1e2b45';x.fillText(s,tx,cy)}
     const tip=`<b>${n.lvl===0?'إجمالي التكلفة':n.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ')}</b><br>${fmt(n.nd.v)} ريال${n.parent?'<br>'+pct(n.nd.v/n.parent.nd.v)+' من المستوى السابق':''}<br>${pct(n.nd.v/T.v)} من الإجمالي${n.lvl<=3&&n.nd.n?'<br>عدد الأوامر: '+fmt(n.nd.n):''}${n.lvl>=1&&n.lvl<=3?'<br><span style="color:#0d9488">'+(skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)?'الفلتر مطبّق — اضغط مرة أخرى لإلغائه':'اضغط لتطبيقه كفلتر على اللوحة')+'</span>':''}`;
     const p=n.path;const click=n.lvl>=1&&n.lvl<=3?()=>skFilter(p[1],n.lvl>=2?p[2]:null,n.lvl>=3?p[3]:null):null;
