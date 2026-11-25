@@ -236,15 +236,15 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="kpi" style="--c:var(--amber)"><div class="l">متوسط الأيام بين عطلين (MTBF)</div><div class="v" id="h5"></div><div class="s">الوسيط لكل المعدات</div></div>
   <div class="kpi" style="--c:var(--rose)"><div class="l">أوامر العمل</div><div class="v" id="hO"></div><div class="s" id="hOs"></div></div>
 </div>
-<div class="sec">مسار تكلفة الصيانة <span>من الإجمالي إلى السنة ثم الورشة ثم نوع الصيانة ثم نوع المنصرف — اضغط على أي سنة أو ورشة أو نوع لتطبيقه كفلتر، واضغط عليه مرة أخرى لإلغائه</span></div>
-<div class="card" style="--c:var(--teal);margin-bottom:14px"><h3>مسار تدفق التكلفة</h3><div class="tbar" style="margin:3px 0 6px"><div class="sub" id="skSub" style="margin:0"></div></div><div dir="ltr" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><canvas id="chSk" height="560" style="min-width:920px;display:block"></canvas></div><div class="legend"><span><i style="background:#db2777"></i>الهفوف</span><span><i style="background:#2563eb"></i>خلاطة 108</span><span><i style="background:#dc2626"></i>أعطال PMV</span><span><i style="background:#16a34a"></i>وقائية</span><span><i style="background:#7c3aed"></i>قطع غيار</span><span><i style="background:#d97706"></i>مستهلكات (زيوت وفلاتر…)</span></div><div id="skNote" style="margin-top:10px;padding:10px 14px;background:#f6f8fb;border:1px solid var(--line);border-radius:12px;font-size:12.5px;line-height:1.95;color:#1e2b45"></div></div>
+<div class="sec">الحكم على حالة الصيانة والإجراء المطلوب <span>أخضر سليم · أصفر يحتاج متابعة · أحمر يحتاج تدخلاً</span></div>
+<div class="verd" id="verd"></div>
+
 
 <div class="sec">ما الجديد في آخر شهر <span id="newSpan"></span></div>
 <div class="news" id="news"></div>
 
-<div class="sec">الحكم على حالة الصيانة والإجراء المطلوب <span>أخضر سليم · أصفر يحتاج متابعة · أحمر يحتاج تدخلاً</span></div>
-<div class="verd" id="verd"></div>
-
+<div class="sec">مسار تكلفة الصيانة <span>من الإجمالي إلى السنة ثم الورشة ثم نوع الصيانة ثم نوع المنصرف — اضغط على أي سنة أو ورشة أو نوع لتطبيقه كفلتر، واضغط عليه مرة أخرى لإلغائه</span></div>
+<div class="card" style="--c:var(--teal);margin-bottom:14px"><h3>مسار تدفق التكلفة <button class="vbtn" id="skCollapse" style="display:none;margin-inline-start:10px;font-size:11px" onclick="SK_EXP.clear();drawSankey()">↩ طيّ «أنواع أخرى»</button></h3><div class="tbar" style="margin:3px 0 6px"><div class="sub" id="skSub" style="margin:0"></div></div><div dir="ltr" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><canvas id="chSk" height="560" style="min-width:920px;display:block"></canvas></div><div class="legend"><span><i style="background:#db2777"></i>الهفوف</span><span><i style="background:#2563eb"></i>خلاطة 108</span><span><i style="background:#dc2626"></i>أعطال PMV</span><span><i style="background:#16a34a"></i>وقائية</span><span><i style="background:#2f4858"></i>نوع المعدة</span></div><div id="skNote" style="margin-top:10px;padding:10px 14px;background:#f6f8fb;border:1px solid var(--line);border-radius:12px;font-size:12.5px;line-height:1.95;color:#1e2b45"></div></div>
 
 <div class="sec">مقارنة الورشتين <span>الهفوف وخلاطة 108 — مقارنة عادلة على أوامر الأعطال، وكل ورشة مقارنة بنفسها عن العام الماضي</span></div>
 <div class="card" style="--c:var(--blue);margin-bottom:14px"><h3 id="scH">مقارنة الورشتين</h3>
@@ -549,12 +549,11 @@ for(const l of D.l){oCost[l[0]]+=l[3];oLines[l[0]]++}
 function sel(o){return o[0]>=F.from&&o[0]<=F.to&&(F.ws<0||o[1]===F.ws)&&(F.tp<0||o[2]===F.tp)&&(F.st<0||o[3]===F.st)&&(F.cu<0||o[4]===F.cu)&&(F.et<0||o[5]===F.et)}
 // ---------- sankey: cost -> year -> workshop -> order type -> parts/consumables ----------
 const oCons=new Float64Array(NO);for(const l of D.l)if(D.it[l[1]][2])oCons[l[0]]+=l[3];
-let SKM='full';let SK_T=null;XC.k8=()=>{const dt=v=>new Date(v).getTime(),DAY=864e5,R=dt(D.ref);const ids=[];for(let i=0;i<NO;i++)if(CUR_MASK[i]&&!oLines[i])ids.push(i);ids.sort((a,b)=>(D.o[a][3]-D.o[b][3])||(D.o[a][9]<D.o[b][9]?-1:1));
+let SKM='full';let SK_T=null,SK_ROWS=[];const SK_EXP=new Set();XC.k8=()=>{const dt=v=>new Date(v).getTime(),DAY=864e5,R=dt(D.ref);const ids=[];for(let i=0;i<NO;i++)if(CUR_MASK[i]&&!oLines[i])ids.push(i);ids.sort((a,b)=>(D.o[a][3]-D.o[b][3])||(D.o[a][9]<D.o[b][9]?-1:1));
   const rows=ids.map(i=>{const o=D.o[i];return[D.eq[o[6]][0],D.et[o[5]],o[7],o[9],o[8]||'—',Math.max(0,Math.round(((o[3]&&o[8]?dt(o[8]):R)-dt(o[9]))/DAY)),D.ws[o[1]],TP[o[2]],STN[o[3]?1:0],D.cu[o[4]]]});const op=ids.filter(i=>!D.o[i][3]).length;
   openModal('أوامر بدون منصرف — لم يُصرف عليها أي صنف من المخزن',`${fmt(rows.length)} أمر · ${fmt(op)} تحت التشغيل · ${fmt(rows.length-op)} منتهي — المفتوح أولاً من الأقدم — داخل الفلتر الحالي`,['المعدة','نوع المعدة','رقم الأمر','تاريخ الأمر','تاريخ الانتهاء','عمر الأمر (يوم)','الورشة','نوع الأمر','حالة الأمر','الشركة المستفيدة'],rows,[2,3,4,5],{col:8,label:'حالة الأمر'})};
 
-XC.chSk=()=>{if(!SK_T)return;const T=SK_T.T,rows=[];for(const y of ['2025','2026']){const Y=T.k[y];if(!Y)continue;for(const w of [0,1]){const W=Y.k[w];if(!W)continue;for(const tp of [0,1]){const P=W.k[tp];if(!P)continue;const p=P.k.p?P.k.p.v:0,c=P.k.c?P.k.c.v:0;rows.push([y,D.ws[w],tp?'وقائية':'أعطال PMV',Math.round(p),Math.round(c),Math.round(P.v),pct(P.v/W.v),pct(P.v/T.v),P.n])}}}
-  openModal('مسار تدفق التكلفة — تفاصيل المسارات',`إجمالي ${fmt(T.v)} ريال — داخل الفلتر الحالي${SK_T.lm<12?' · بيانات 2026 حتى '+MN[SK_T.lm-1]:''}`,['السنة','الورشة','نوع الصيانة','قطع غيار','مستهلكات','الإجمالي','النسبة من الورشة','النسبة من الإجمالي','عدد الأوامر'],rows,[3,4,5,8])};
+XC.chSk=()=>{if(!SK_ROWS.length)return;const rows=SK_ROWS.slice().sort((a,b)=>a[0].localeCompare(b[0])||a[1]-b[1]||b[5]-a[5]).map(r=>[r[0],D.ws[r[1]],D.et[r[2]],Math.round(r[3]),Math.round(r[4]),Math.round(r[5]),pct(r[3]/Math.max(1,r[5])),r[6]]);const tot=SK_ROWS.reduce((a,r)=>a+r[5],0);openModal('مسار تدفق التكلفة — كل أنواع المعدات حسب السنة والورشة',`${fmt(rows.length)} سطر · إجمالي ${fmt(tot)} ريال — داخل الفلتر الحالي`,['السنة','الورشة','نوع المعدة','أعطال PMV','وقائية','الإجمالي','نسبة الأعطال','عدد الأوامر'],rows,[3,4,5,7])};
 // ---------- all equipment types, ascending ----------
 function drawEtAll(){const cv=$('chEtAll');if(!cv||!cv.parentElement.clientWidth)return;
   const f=F.et;F.et=-1;const c=new Float64Array(D.et.length),n=new Uint32Array(D.et.length),eq=D.et.map(()=>new Set());D.o.forEach((o,i)=>{if(!sel(o))return;c[o[5]]+=oCost[i];n[o[5]]++;eq[o[5]].add(o[6])});F.et=f;
@@ -574,71 +573,87 @@ function drawEtAll(){const cv=$('chEtAll');if(!cv||!cv.parentElement.clientWidth
 
 function skMode(m){SKM=m;document.querySelectorAll('#skBtns .vbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));drawSankey()}
 function skYr(y){return[D.months.findIndex(m=>m.startsWith(y)),D.months.length-1-[...D.months].reverse().findIndex(m=>m.startsWith(y))]}
-function skActive(y,ws,tp){const[a,b]=skYr(y);return F.from===a&&F.to===b&&F.ws===(ws==null?-1:ws)&&F.tp===(tp==null?-1:tp)}
-function skFilter(y,ws,tp){if(skActive(y,ws,tp)){F.from=0;F.to=D.months.length-1;F.ws=-1;F.tp=-1}else{const[a,b]=skYr(y);F.from=a;F.to=b;F.ws=ws==null?-1:ws;F.tp=tp==null?-1:tp}syncUI();render()}
-function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!cv.clientWidth)return;const{x,w,h}=setup(cv);bindHits(cv);
+function skActive(y,ws,et,tp){const[a,b]=skYr(y);return F.from===a&&F.to===b&&F.ws===(ws==null?-1:ws)&&F.et===(et==null?-1:et)&&F.tp===(tp==null?-1:tp)}
+function skFilter(y,ws,et,tp){if(skActive(y,ws,et,tp)){F.from=0;F.to=D.months.length-1;F.ws=-1;F.et=-1;F.tp=-1}else{const[a,b]=skYr(y);F.from=a;F.to=b;F.ws=ws==null?-1:ws;F.et=et==null?-1:et;F.tp=tp==null?-1:tp}syncUI();render()}
+function drawSankey(cvIn,ML,noDom){ML=ML||4;const cv=cvIn||$('chSk');if(!cv||!(cvIn?cv.clientWidth:cv.parentElement.clientWidth))return;
   const yrs=['2025','2026'];let lm=0;
   D.o.forEach((o,i)=>{if(!sel(o)||oCost[i]<=0)return;const m=D.months[o[0]];if(m.startsWith('2026'))lm=Math.max(lm,+m.slice(5))});
-  const same=SKM==='same'&&lm>0&&lm<12;
-  // tree aggregation
-  const T={v:0,n:0,k:{}};
-  const add=(path,c,cn)=>{let nd=T;nd.v+=c;nd.n+=cn;for(const p of path){nd=nd.k[p]||(nd.k[p]={v:0,n:0,k:{}});nd.v+=c;nd.n+=cn}};
-  D.o.forEach((o,i)=>{if(!sel(o))return;const m=D.months[o[0]],y=m.slice(0,4);if(!yrs.includes(y))return;if(same&&+m.slice(5)>lm)return;const c=oCost[i],cs=oCons[i];
-    add([y,o[1],o[2]],0,1);add([y,o[1],o[2],'p'],c-cs,0);add([y,o[1],o[2],'c'],cs,0)});
-  if(!noDom)SK_T={T,same,lm};
+  // aggregate year -> ws -> et -> tp
+  const A={};let pv=0,pvp=0,pm=0,pmp=0;
+  D.o.forEach((o,i)=>{if(!sel(o))return;const y=D.months[o[0]].slice(0,4);if(!yrs.includes(y))return;const c=oCost[i],cs=oCons[i];
+    const b=(A[y+'|'+o[1]]||(A[y+'|'+o[1]]={}));const e=b[o[5]]||(b[o[5]]={v:0,n:0,t:[[0,0],[0,0]]});e.v+=c;e.n++;e.t[o[2]][0]+=c;e.t[o[2]][1]++;
+    if(o[2]){pv+=c;pvp+=c-cs}else{pm+=c;pmp+=c-cs}});
+  SK_ROWS=[];for(const key in A){const[y,w]=key.split('|');for(const et in A[key]){const e=A[key][et];SK_ROWS.push([y,+w,+et,e.t[0][0],e.t[1][0],e.v,e.n])}}
+  const T={v:0,n:0,k:{},ord:[]};
+  for(const y of yrs){let Y=null;for(const w of [0,1]){const b=A[y+'|'+w];if(!b)continue;const its=Object.entries(b).filter(([,e])=>e.v>0).sort((p,q)=>q[1].v-p[1].v);if(!its.length)continue;
+    if(!Y){Y=T.k[y]={v:0,n:0,k:{},ord:[]};T.ord.push(y)}const W=Y.k[w]={v:0,n:0,k:{},ord:[]};Y.ord.push(w);
+    const tot=its.reduce((a,[,e])=>a+e.v,0),exp=SK_EXP.has(y+'|'+w)&&!noDom;let cum=0,n=0;
+    for(const[et,e] of its){if(!exp&&n>=2&&cum/tot>=0.9)break;cum+=e.v;n++}
+    const add=(key,lab,list,isO)=>{const v=list.reduce((a,[,e])=>a+e.v,0);if(v<=0)return;const E=W.k[key]={v,n:list.reduce((a,[,e])=>a+e.n,0),k:{},ord:[],lab,isO,list};W.ord.push(key);
+      [0,1].forEach(tp=>{const tv=list.reduce((a,[,e])=>a+e.t[tp][0],0),tn=list.reduce((a,[,e])=>a+e.t[tp][1],0);if(tv>0){E.k[tp]={v:tv,n:tn,k:{},ord:[]};E.ord.push(tp)}})};
+    its.slice(0,n).forEach(([et,e])=>add(+et,D.et[et],[[et,e]],false));
+    if(n<its.length)add('o',`أنواع أخرى (${its.length-n})`,its.slice(n),true);
+    W.v=tot;W.n=its.reduce((a,[,e])=>a+e.n,0);Y.v+=W.v;Y.n+=W.n}if(Y){T.v+=Y.v;T.n+=Y.n}}
+  if(!noDom)SK_T={T,lm};
+  const nTypes=Object.values(T.k).reduce((a,Y)=>a+Object.values(Y.k).reduce((b,W)=>b+W.ord.length,0),0);
+  const H=Math.max(cvIn?360:560,nTypes*(cvIn?20:25)+60);cv.dataset.h=H;cv.setAttribute('height',H);
+  const{x,w,h}=setup(cv);bindHits(cv);
+  if(!noDom){const b=$('skCollapse');if(b)b.style.display=SK_EXP.size?'':'none'}
   if(T.v<=0){x.fillStyle=C.mut;x.textAlign='center';x.fillText('لا توجد بيانات',w/2,h/2);if(!noDom){$('skNote').innerHTML='';$('skNote').style.display='none'}return[]}
-  const WSC=['#db2777','#2563eb'],TPC=[C.red,C.grn],CTC={p:C.vio,c:C.amber},YC={'2025':'#475569','2026':'#0f766e'};
-  const nm=(lvl,key,path)=>lvl===1?key+(same?` (${MN[0]} – ${MN[lm-1]})`:key==='2026'&&lm<12?` (حتى ${MN[lm-1]})`:''):lvl===2?D.ws[key]:lvl===3?(key==0?'أعطال PMV':'وقائية'):(key==='p'?'قطع غيار':'مستهلكات');
-  const col=(lvl,key,path)=>lvl===0?'#2f4858':lvl===1?YC[key]:lvl===2?WSC[key]:lvl===3?TPC[key]:CTC[key];
-  // flatten in order
-  const ord={1:['2025','2026'],2:[0,1],3:[0,1],4:['p','c']};const nodes=[];
-  const walk=(nd,lvl,path,parent)=>{const me={nd,lvl,key:path[path.length-1],path,parent,kids:[]};nodes.push(me);if(parent)parent.kids.push(me);if(lvl<ML)for(const k of ord[lvl+1]){const ch=nd.k[k];if(ch&&ch.v>0)walk(ch,lvl+1,[...path,k],me)}};
+  const WSC=['#db2777','#2563eb'],TPC=[C.red,C.grn],YC={'2025':'#475569','2026':'#0f766e'},ETC='#2f4858';
+  const nm=(lvl,key,nd)=>lvl===1?key+(key==='2026'&&lm<12?` (حتى ${MN[lm-1]})`:''):lvl===2?D.ws[key]:lvl===3?nd.lab:(key==0?'أعطال PMV':'وقائية');
+  const nodes=[];
+  const walk=(nd,lvl,path,parent)=>{const me={nd,lvl,key:path[path.length-1],path,parent,kids:[]};nodes.push(me);if(parent)parent.kids.push(me);if(lvl<ML)for(const k of nd.ord){const ch=nd.k[k];if(ch&&ch.v>0)walk(ch,lvl+1,[...path,k],me)}};
   walk(T,0,['root'],null);
-  const padL=105,padR=165,top=10,bot=10,NW=11;
-  const colX=l=>padL+(w-padR-padL-NW)*l/ML;
-  const leaves=nodes.filter(n=>n.lvl===ML);const G=[0,30,18,10,5].slice(0,ML+1);if(ML<4)G[ML]=8;
-  let gaps=0;for(let i=1;i<leaves.length;i++){let a=leaves[i-1],b=leaves[i],d=ML;while(a.parent!==b.parent){a=a.parent;b=b.parent;d--}gaps+=G[d]}
+  nodes.forEach(n=>{n.name=n.lvl===0?'إجمالي التكلفة':nm(n.lvl,n.key,n.nd);n.col=n.lvl===0?'#2f4858':n.lvl===1?YC[n.key]:n.lvl===2?WSC[n.key]:n.lvl===3?ETC:TPC[n.key]});
+  const padL=105,padR=ML>=4?16:270,top=10,bot=10,NW=11;
+  const colX=ML>=4?(l=>[padL,0,0,0,w-padR-NW][l]||padL+(w-padR-padL-NW)*[0,.2,.4,.62,1][l]):(l=>padL+(w-padR-padL-NW)*l/ML);
+  const leaves=nodes.filter(n=>n.lvl===ML);const G=[0,30,18,13,2].slice(0,ML+1);if(ML<4)G[ML]=8;
+  const gd=(a,b)=>{let d=ML;while(a.parent!==b.parent){a=a.parent;b=b.parent;d--}return G[d]};
+  let gaps=0;for(let i=1;i<leaves.length;i++)gaps+=gd(leaves[i-1],leaves[i]);
   const k=(h-top-bot-gaps)/T.v;
-  let yy=top;leaves.forEach((n,i)=>{if(i){let a=leaves[i-1],b=n,d=ML;while(a.parent!==b.parent){a=a.parent;b=b.parent;d--}yy+=G[d]}n.y0=yy;n.y1=yy+n.nd.v*k;yy=n.y1});
+  let yy=top;leaves.forEach((n,i)=>{if(i)yy+=gd(leaves[i-1],n);n.y0=yy;n.y1=yy+n.nd.v*k;yy=n.y1});
   for(let l=ML-1;l>=0;l--)nodes.filter(n=>n.lvl===l).forEach(n=>{const a=n.kids[0].y0,b=n.kids[n.kids.length-1].y1,hh=n.nd.v*k,c=(a+b)/2;n.y0=c-hh/2;n.y1=c+hh/2});
-  // links
-  const Lk=[];nodes.forEach(n=>{let off=n.y0;n.kids.forEach(ch=>{const hh=ch.nd.v*k;Lk.push({s:n,t:ch,sy:off,ty:ch.y0,hh});off+=hh})});
   const xs=n=>colX(n.lvl);
-  Lk.forEach(L=>{const x0=xs(L.s)+NW,x1=xs(L.t),xm=(x0+x1)/2;const c=col(L.t.lvl,L.t.key);
-    x.fillStyle=c+'38';x.beginPath();x.moveTo(x0,L.sy);x.bezierCurveTo(xm,L.sy,xm,L.ty,x1,L.ty);x.lineTo(x1,L.ty+L.hh);x.bezierCurveTo(xm,L.ty+L.hh,xm,L.sy+L.hh,x0,L.sy+L.hh);x.closePath();x.fill();
-    const s=L.s,t=L.t,v=t.nd.v;const pName=s.lvl===0?'إجمالي التكلفة':s.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ');const tName=t.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ');
-    const extra=t.lvl===3&&t.nd.n?`<br>عدد الأوامر: <b>${fmt(t.nd.n)}</b> · متوسط الأمر: <b>${fmt(v/t.nd.n)}</b> ريال`:t.lvl<3&&t.nd.n?`<br>عدد الأوامر: ${fmt(t.nd.n)}`:'';
-    cv._hits.push({t:(mx,my)=>{if(mx<x0||mx>x1)return false;const u=(mx-x0)/(x1-x0),sm=u*u*(3-2*u),yc=L.sy+(L.ty-L.sy)*sm;return my>=yc-1&&my<=yc+Math.max(L.hh,3)+1},
-      tip:`<b>${tName}</b><br>${fmt(v)} ريال<br>${pct(v/s.nd.v)} من ${pName} · ${pct(v/T.v)} من الإجمالي${extra}`})});
-  // nodes + labels
+  const pathTxt=n=>n.lvl===0?'إجمالي التكلفة':n.path.slice(1).map((p,j)=>{let m=n;while(m.lvl>j+1)m=m.parent;return m.name}).join(' · ');
+  const ctx=n=>({y:n.path[1],ws:n.lvl>=2?n.path[2]:null,et:n.lvl>=3&&n.key!=='o'&&!n.nd.isO?(n.lvl===3?n.key:n.path[3]):null,tp:n.lvl>=4?n.key:null,o:n.lvl>=3&&(n.lvl===3?n.nd.isO:n.parent.nd.isO)});
+  // links
+  nodes.forEach(n=>{let off=n.y0;n.kids.forEach(t=>{const hh=t.nd.v*k,sy=off;off+=hh;const x0=xs(n)+NW,x1=xs(t),xm=(x0+x1)/2,ty=t.y0;const c=t.lvl===3?n.col:t.col;
+    x.fillStyle=c+'38';x.beginPath();x.moveTo(x0,sy);x.bezierCurveTo(xm,sy,xm,ty,x1,ty);x.lineTo(x1,ty+hh);x.bezierCurveTo(xm,ty+hh,xm,sy+hh,x0,sy+hh);x.closePath();x.fill();
+    const v=t.nd.v,extra=t.nd.n?`<br>عدد الأوامر: <b>${fmt(t.nd.n)}</b> · متوسط الأمر: <b>${fmt(v/t.nd.n)}</b> ريال`:'';
+    cv._hits.push({t:(mx,my)=>{if(mx<x0||mx>x1)return false;const u=(mx-x0)/(x1-x0),sm=u*u*(3-2*u),yc=sy+(ty-sy)*sm;return my>=yc-1&&my<=yc+Math.max(hh,3)+1},
+      tip:`<b>${pathTxt(t)}</b><br>${fmt(v)} ريال<br>${pct(v/n.nd.v)} من ${pathTxt(n)} · ${pct(v/T.v)} من الإجمالي${extra}`})})});
+  // labels layout (no labels on leaf column when ML>=4)
   x.textBaseline='middle';
-  for(let l=0;l<=ML;l++){const cs=nodes.filter(n=>n.lvl===l);cs.forEach(n=>{const hh=n.y1-n.y0;n.two=hh>=24||l===0;n.lh=n.two?30:13;n.cy=(n.y0+n.y1)/2});
+  const showLab=n=>!(ML>=4&&n.lvl===4);
+  const fv=n=>{let s=fmtK(n.nd.v)+(n.parent?' · '+pct(n.nd.v/n.parent.nd.v):'');if(n.lvl===3){const pmv=n.nd.k[0]?n.nd.k[0].v:0;s+=' · '+Math.round(pmv/n.nd.v*100)+'% أعطال'}return s};
+  for(let l=0;l<=ML;l++){const cs=nodes.filter(n=>n.lvl===l&&showLab(n));cs.forEach(n=>{const hh=n.y1-n.y0;n.two=hh>=24||l<=2;n.lh=n.two?30:13;n.cy=(n.y0+n.y1)/2});
     for(let i=1;i<cs.length;i++){const a=cs[i-1],b=cs[i],mn=(a.lh+b.lh)/2+1;if(b.cy-a.cy<mn)b.cy=a.cy+mn}
     const last=cs[cs.length-1];if(last&&last.cy+last.lh/2>h-2){last.cy=h-2-last.lh/2;for(let i=cs.length-2;i>=0;i--){const a=cs[i],b=cs[i+1],mn=(a.lh+b.lh)/2+1;if(b.cy-a.cy<mn)a.cy=b.cy-mn}}}
-  nodes.forEach(n=>{const X=xs(n),hh=Math.max(1.5,n.y1-n.y0);x.fillStyle=col(n.lvl,n.key);x.fillRect(X,n.y0,NW,hh);if(n.lvl>=1&&n.lvl<=3&&skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)){x.strokeStyle='#ffb15c';x.lineWidth=3;x.strokeRect(X-2,n.y0-2,NW+4,hh+4)}
-    const label=n.lvl===0?'إجمالي التكلفة':nm(n.lvl,n.key);const val=fmtK(n.nd.v)+(n.parent?' · '+pct(n.nd.v/n.parent.nd.v):'');
-    const cy=n.cy;const tx=n.lvl===0?X-6:X+NW+6;
-    x.lineWidth=3;x.strokeStyle='#ffffffe6';x.lineJoin='round';
-    const two=n.two;x.direction='rtl';x.textAlign=n.lvl===0?'right':'left';
-    x.font=`700 ${n.lvl>=4?11:12}px Cairo,Segoe UI,Tahoma`;
-    if(two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`${n.lvl>=4?10.5:11.5}px Cairo,Segoe UI,Tahoma`;const vv='\u2066'+val+'\u2069';x.strokeText(vv,tx,cy+8);x.fillStyle='#1e2b45';x.fillText(vv,tx,cy+8)}
-    else{const s=label+'  \u2066'+val+'\u2069';x.strokeText(s,tx,cy);x.fillStyle='#1e2b45';x.fillText(s,tx,cy)}
-    const tip=`<b>${n.lvl===0?'إجمالي التكلفة':n.path.slice(1).map((p,j)=>nm(j+1,p)).join(' · ')}</b><br>${fmt(n.nd.v)} ريال${n.parent?'<br>'+pct(n.nd.v/n.parent.nd.v)+' من المستوى السابق':''}<br>${pct(n.nd.v/T.v)} من الإجمالي${n.lvl<=3&&n.nd.n?'<br>عدد الأوامر: '+fmt(n.nd.n):''}${n.lvl>=1&&n.lvl<=3?'<br><span style="color:#0d9488">'+(skActive(n.path[1],n.lvl>=2?n.path[2]:null,n.lvl>=3?n.path[3]:null)?'الفلتر مطبّق — اضغط مرة أخرى لإلغائه':'اضغط لتطبيقه كفلتر على اللوحة')+'</span>':''}`;
-    const p=n.path;const click=n.lvl>=1&&n.lvl<=3?()=>skFilter(p[1],n.lvl>=2?p[2]:null,n.lvl>=3?p[3]:null):null;
-    cv._hits.unshift({X:X-2,Y:n.y0-2,W:NW+4,H:hh+4,tip,click})});
+  nodes.forEach(n=>{const X=xs(n),hh=Math.max(1.5,n.y1-n.y0),c=ctx(n);x.fillStyle=n.col;x.fillRect(X,n.y0,NW,hh);
+    const act=n.lvl>=1&&!c.o&&skActive(c.y,c.ws,c.et,c.tp);if(act){x.strokeStyle='#ffb15c';x.lineWidth=3;x.strokeRect(X-2,n.y0-2,NW+4,hh+4)}
+    if(showLab(n)){const label=n.name,val=fv(n),cy=n.cy,tx=n.lvl===0?X-6:X+NW+6;
+      x.lineWidth=3;x.strokeStyle='#ffffffe6';x.lineJoin='round';x.direction='rtl';x.textAlign=n.lvl===0?'right':'left';
+      x.font=`700 ${n.lvl>=3?11:12}px Cairo,Segoe UI,Tahoma`;
+      if(n.two){x.strokeText(label,tx,cy-8);x.fillStyle='#1e2b45';x.fillText(label,tx,cy-8);x.font=`${n.lvl>=3?10.5:11.5}px Cairo,Segoe UI,Tahoma`;const vv='⁦'+val+'⁩';x.strokeText(vv,tx,cy+8);x.fillStyle='#1e2b45';x.fillText(vv,tx,cy+8)}
+      else{const s=label+'  ⁦'+val+'⁩';x.strokeText(s,tx,cy);x.fillStyle='#1e2b45';x.fillText(s,tx,cy)}
+      x.font=`700 ${n.lvl>=3?11:12}px Cairo,Segoe UI,Tahoma`;const lwl=x.measureText(label).width;x.font=`${n.lvl>=3?10.5:11.5}px Cairo,Segoe UI,Tahoma`;const lwv=x.measureText(val).width;n.lw=n.two?Math.max(lwl,lwv):lwl+lwv+12}
+    let tip=`<b>${pathTxt(n)}</b><br>${fmt(n.nd.v)} ريال${n.parent?'<br>'+pct(n.nd.v/n.parent.nd.v)+' من المستوى السابق':''}<br>${pct(n.nd.v/T.v)} من الإجمالي${n.nd.n?'<br>عدد الأوامر: '+fmt(n.nd.n):''}`;
+    if(n.lvl===3&&n.nd.k[0])tip+=`<br>أعطال PMV: ${fmt(n.nd.k[0].v)} (${pct(n.nd.k[0].v/n.nd.v)})${n.nd.k[1]?' · وقائية: '+fmt(n.nd.k[1].v):''}`;
+    let click=null;
+    if(n.lvl===3&&n.nd.isO){tip+=`<br><span style="color:#6b7a90">أكبر الأنواع فيها: ${n.nd.list.slice(0,4).map(([et,e])=>D.et[et]+' '+fmtK(e.v)).join('، ')}</span><br><span style="color:#0d9488">اضغط لعرض كل الأنواع في هذا الفرع</span>`;const key=n.path[1]+'|'+n.path[2];click=()=>{SK_EXP.add(key);drawSankey()}}
+    else if(n.lvl===4&&c.o){}
+    else if(n.lvl>=1){tip+='<br><span style="color:#0d9488">'+(act?'الفلتر مطبّق — اضغط مرة أخرى لإلغائه':'اضغط لتطبيقه كفلتر على اللوحة')+'</span>';click=()=>skFilter(c.y,c.ws,c.et,c.tp)}
+    const hb=Math.max(hh+4,14);cv._hits.unshift({X:X-2,Y:(n.y0+n.y1)/2-hb/2,W:NW+4,H:hb,tip,click});if(showLab(n)&&n.lw){const lx=n.lvl===0?X-6-n.lw:X+NW+4;cv._hits.unshift({X:lx,Y:n.cy-(n.two?18:8),W:n.lw+4,H:n.two?36:16,tip,click})}});
   x.direction='inherit';x.font='12px Cairo,Segoe UI,Tahoma';
-  // note
-  const g=(y,ws,tp)=>{const a=T.k[y],b=a&&a.k[ws],c=b&&tp!=null?b.k[tp]:b;return c?c.v:0};
+  // notes
   const notes=[];
-  if(T.k['2025']&&T.k['2026']){const d=(T.k['2026'].v-T.k['2025'].v)/T.k['2025'].v;notes.push(`إجمالي ${same?'نفس الفترة':'التكلفة'}: 2026 = <b>${fmtK(T.k['2026'].v)}</b> مقابل 2025 = <b>${fmtK(T.k['2025'].v)}</b> <span dir="ltr" style="unicode-bidi:isolate;color:${d>0?C.red:C.grn}">(${d>0?'▲ +':'▼ '}${pct(Math.abs(d))})</span>${same?'':' — تنبيه: 2026 سنة غير مكتملة'}.`);
-    const ch=[];D.ws.forEach((wn,wi)=>[0,1].forEach(tp=>{const a=g('2025',wi,tp),b=g('2026',wi,tp);if(a>0)ch.push({wn,tp,a,b,d:(b-a)/a})}));
-    if(same&&ch.length){ch.sort((p,q)=>q.d-p.d);const up=ch[0],dn=ch[ch.length-1];
-      if(up.d>0)notes.push(`أعلى زيادة: <b>${up.tp?'الوقائية':'الأعطال PMV'} في ورشة ${up.wn}</b> من ${fmtK(up.a)} إلى ${fmtK(up.b)} <span dir="ltr" style="unicode-bidi:isolate;color:${C.red}">(▲ +${pct(up.d)})</span>.`);
-      if(dn.d<0)notes.push(`أكبر انخفاض: <b>${dn.tp?'الوقائية':'الأعطال PMV'} في ورشة ${dn.wn}</b> من ${fmtK(dn.a)} إلى ${fmtK(dn.b)} <span dir="ltr" style="unicode-bidi:isolate;color:${C.grn}">(▼ ${pct(Math.abs(dn.d))})</span>.`)}}
-  let pv=0,pvp=0,pm=0,pmp=0;for(const y in T.k)for(const ws in T.k[y].k)for(const tp in T.k[y].k[ws].k){const t=T.k[y].k[ws].k[tp],pp=t.k.p?t.k.p.v:0;if(tp==1){pv+=t.v;pvp+=pp}else{pm+=t.v;pmp+=pp}}
+  if(T.k['2025']&&T.k['2026']){const d=(T.k['2026'].v-T.k['2025'].v)/T.k['2025'].v;notes.push(`إجمالي التكلفة: 2026 = <b>${fmtK(T.k['2026'].v)}</b> مقابل 2025 = <b>${fmtK(T.k['2025'].v)}</b> <span dir="ltr" style="unicode-bidi:isolate;color:${d>0?C.red:C.grn}">(${d>0?'▲ +':'▼ '}${pct(Math.abs(d))})</span>${lm<12?' — تنبيه: 2026 سنة غير مكتملة':''}.`)}
+  const allT=[];for(const y in T.k)for(const ws in T.k[y].k)for(const et in T.k[y].k[ws].k){const E=T.k[y].k[ws].k[et];if(!E.isO&&E.v>T.v*.03)allT.push({y,ws,E,p:(E.k[0]?E.k[0].v:0)/E.v})}
+  if(allT.length){allT.sort((a,b)=>b.p-a.p);const hi=allT[0],lo=allT[allT.length-1];notes.push(`أعلى نسبة أعطال: <b>${hi.E.lab}</b> (${D.ws[hi.ws]} ${hi.y}) — ${pct(hi.p)} من تكلفتها أعطال PMV${lo.p<.5?` · وأقلها: <b>${lo.E.lab}</b> (${D.ws[lo.ws]} ${lo.y}) ${pct(lo.p)} فقط`:''}.`)}
   if(pv>0&&pm>0)notes.push(`قطع الغيار تمثل <b>${pct(pmp/pm)}</b> من تكلفة الأعطال و<b>${pct(pvp/pv)}</b> فقط من تكلفة الوقائية (الباقي زيوت وفلاتر ومستهلكات)${pvp/pv>.25?' — نسبة قطع الغيار في الوقائية مرتفعة، وقد تعني أعطالاً مسجلة كوقائية':''}.`);
   if(noDom)return notes;$('skNote').innerHTML=notes.map(t=>`<div>• ${t}</div>`).join('');$('skNote').style.display=notes.length?'':'none';
-  $('skSub').textContent=T.k['2026']&&lm<12?`يتبع الفلاتر أعلاه · بيانات 2026 حتى ${MN[lm-1]} فقط`:'يتبع الفلاتر أعلاه';
+  $('skSub').textContent=(T.k['2026']&&lm<12?`يتبع الفلاتر أعلاه · بيانات 2026 حتى ${MN[lm-1]} فقط`:'يتبع الفلاتر أعلاه')+' · كل ورشة تعرض أنواع المعدات حتى 90% من تكلفتها، والباقي «أنواع أخرى» (اضغط عليها لفتحها) · آخر عمود: أحمر أعطال، أخضر وقائي';
 }
 
 let eqRows=[],eqSort={k:6,d:-1};
