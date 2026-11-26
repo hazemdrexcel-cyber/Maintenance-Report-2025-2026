@@ -523,7 +523,12 @@ function unitOf(head){const H=head.join('|');return /الصنف|القطعة/.te
 function autoFoot(head,flt){const sc=head.map((h,j)=>j>0&&SUMOK(h)),u=unitOf(head);
   const line=(lab,rs)=>head.map((h,j)=>{if(j===0)return `${lab} — ${fmt(rs.length)} ${u}`;if(!sc[j]||!rs.some(r=>typeof r[j]==='number'))return '';const t=rs.reduce((a,r)=>a+(typeof r[j]==='number'?r[j]:0),0);return Number.isInteger(t)?t:+t.toFixed(2)});
   return rows=>{const out=[];if(flt){let vals=[...new Set(rows.map(r=>r[flt.col]))];if(flt.order)vals.sort((a,b)=>flt.order.indexOf(a)-flt.order.indexOf(b));if(vals.length>1)vals.forEach(v=>out.push(line('إجمالي '+v,rows.filter(r=>r[flt.col]===v))))}out.push(line('الإجمالي',rows));return out}}
-function openModal(title,sub,head,rows,num,flt,foot){MDL={title,head,rows,all:rows,num,sub:sub||'',flt:flt||null,foot:foot||autoFoot(head,flt)};$('mTitle').textContent=title;
+function autoFlt(head,rows){const RK={'ترتيب الصنف':['الصنف'],'ترتيب المعدة':['المعدة'],'ترتيب النوع':['نوع المعدة','النوع'],'ترتيب المجموعة':['المجموعة'],'ترتيب الشركة':['الشركة المستفيدة']};const fromRk=new Set();head.forEach(h=>{if(RK[h])RK[h].forEach(x=>fromRk.add(x))});
+  let cand=[];head.forEach(h=>{if(RK[h])cand.push(...RK[h])});
+  cand.push('الشريحة','التصنيف في المصفوفة','نوع الصيانة','الورشة','حالة أمر الصيانة','نوع المعدة','النوع','المجموعة','التصنيف','السنة','الشركة المستفيدة');
+  for(const c of cand){const j=head.indexOf(c);if(j<0)continue;const seen=[];for(const r of rows){const v=r[j];if(typeof v!=='string'||v==='')continue;if(!seen.includes(v)){seen.push(v);if(seen.length>80)break}}
+    if(seen.length>=2&&seen.length<=80){if(!fromRk.has(c)&&seen.length>6)seen.sort((a,b)=>a.localeCompare(b,'ar'));return{col:j,label:c,order:seen}}}return null}
+function openModal(title,sub,head,rows,num,flt,foot){if(flt===undefined)flt=autoFlt(head,rows);MDL={title,head,rows,all:rows,num,sub:sub||'',flt:flt||null,foot:foot||autoFoot(head,flt)};$('mTitle').textContent=title;
   $('mHead').innerHTML='<tr>'+head.map(h=>`<th>${h}</th>`).join('')+'</tr>';
   const fe=$('mFlt');if(flt){let vals=[...new Set(rows.map(r=>r[flt.col]))];if(flt.order)vals.sort((a,b)=>flt.order.indexOf(a)-flt.order.indexOf(b));fe.innerHTML=`<label>${flt.label||head[flt.col]}</label><select id="mFltS"><option value="">الكل (${fmt(rows.length)})</option>${vals.map(v=>`<option value="${v}">${v} (${fmt(rows.filter(r=>r[flt.col]===v).length)})</option>`).join('')}</select>`;fe.style.display='';$('mFltS').onchange=e=>{const v=e.target.value;MDL.rows=v?MDL.all.filter(r=>r[flt.col]===v):MDL.all;mdlDraw()}}else{fe.innerHTML='';fe.style.display='none'}
   mdlDraw();$('mdl').classList.add('on')}
@@ -541,9 +546,9 @@ const XP={};
 const XC={};
 const ORH=['المعدة','نوع المعدة','رقم أمر الصيانة','تاريخ فتح أمر الصيانة','تاريخ إغلاق أمر الصيانة','الورشة','نوع الصيانة','حالة أمر الصيانة','الشركة المستفيدة','تكلفة الصرف من المخزن'];
 const oRow=i=>{const o=D.o[i];return[D.eq[o[6]][0],D.et[o[5]],o[7],o[9],o[8]||'—',D.ws[o[1]],TP[o[2]],STN[o[3]?1:0],D.cu[o[4]],Math.round(oCost[i])]};
-function xO(title,pred,extra,sortFn){const ids=[];for(let i=0;i<NO;i++)if(CUR_MASK[i]&&pred(i))ids.push(i);if(sortFn)ids.sort(sortFn);
+function xO(title,pred,extra,sortFn,flt){const ids=[];for(let i=0;i<NO;i++)if(CUR_MASK[i]&&pred(i))ids.push(i);if(sortFn)ids.sort(sortFn);
   const rows=ids.map(i=>[...extra.map(x=>x[1](i)),...oRow(i)]);const tot=ids.reduce((a,i)=>a+oCost[i],0),ne=extra.length;
-  openModal(title,`${fmt(rows.length)} أمر · إجمالي التكلفة ${fmt(tot)} ريال — داخل الفلتر الحالي`,[...extra.map(x=>x[0]),...ORH],rows,[...extra.map((x,j)=>j),ne+ORH.length-1])}
+  openModal(title,`${fmt(rows.length)} أمر · إجمالي التكلفة ${fmt(tot)} ريال — داخل الفلتر الحالي`,[...extra.map(x=>x[0]),...ORH],rows,[...extra.map((x,j)=>j),ne+ORH.length-1],flt)}
 const LNH=['الصنف','المجموعة','التصنيف','المعدة','نوع المعدة','رقم أمر الصيانة','تاريخ فتح أمر الصيانة','تاريخ الصرف من المخزن','الورشة','نوع الصيانة','الكمية','التكلفة'];
 const lRow=l=>{const o=D.o[l[0]],it=D.it[l[1]];return[it[0],D.gr[it[1]],it[2]?'مستهلكات':'قطع غيار',D.eq[o[6]][0],D.et[o[5]],o[7],o[9],LD(l[5]),D.ws[o[1]],TP[o[2]],+l[2].toFixed(2),Math.round(l[3])]};
 function xL(title,pred,extra,sortFn,flt){const ls=D.l.filter(l=>CUR_MASK[l[0]]&&pred(l));if(sortFn)ls.sort(sortFn);
@@ -556,7 +561,7 @@ function eqParts(k){const m={};for(const l of D.l){if(!CUR_MASK[l[0]]||D.o[l[0]]
   return Object.entries(m).sort((a,b)=>b[1][1]-a[1][1]).map(([it,r])=>[D.it[it][0],D.gr[D.it[it][1]],D.it[it][2]?'مستهلكات':'قطع غيار',r[2].size,+r[0].toFixed(2),Math.round(r[1]),LD(r[3])])}
 function showParts(k){k=+k;const rows=eqParts(k);const tot=rows.reduce((a,r)=>a+r[5],0);const os=new Set(),osP=new Set(),osC=new Set();for(const l of D.l){if(!CUR_MASK[l[0]]||D.o[l[0]][6]!==k)continue;os.add(l[0]);(D.it[l[1]][2]?osC:osP).add(l[0])}
   const sumBy=c=>rows.filter(r=>r[2]===c).reduce((a,r)=>a+r[5],0),cntBy=c=>rows.filter(r=>r[2]===c).length;
-  openModal('قطع الغيار المصروفة — '+D.eq[k][0],`${D.et[D.eq[k][1]]} · ${fmt(rows.length)} صنف · إجمالي ${fmt(tot)} ريال (داخل الفلتر الحالي)`,['الصنف','المجموعة','التصنيف','عدد أوامر الصيانة','الكمية','التكلفة','تاريخ آخر صرف من المخزن'],rows,[3,4,5,6],null,
+  openModal('قطع الغيار المصروفة — '+D.eq[k][0],`${D.et[D.eq[k][1]]} · ${fmt(rows.length)} صنف · إجمالي ${fmt(tot)} ريال (داخل الفلتر الحالي)`,['الصنف','المجموعة','التصنيف','عدد أوامر الصيانة','الكمية','التكلفة','تاريخ آخر صرف من المخزن'],rows,[3,4,5,6],undefined,
     ()=>[['إجمالي قطع الغيار',`${fmt(cntBy('قطع غيار'))} صنف`,'',osP.size,'',Math.round(sumBy('قطع غيار')),''],['إجمالي المستهلكات',`${fmt(cntBy('مستهلكات'))} صنف`,'',osC.size,'',Math.round(sumBy('مستهلكات')),''],['الإجمالي',`${fmt(rows.length)} صنف`,'',os.size,'',Math.round(tot),'']])}
 const REC=[],OPEN={},EX={};
 
@@ -776,7 +781,7 @@ function render(){
   hbar($('chEt'),top(etC,0,0,12).map(o=>({l:D.et[o.i],k:o.i,v:[o.v],tip:`<b>${D.et[o.i]}</b><br>${fmt(o.v)} ريال<br>${pct(o.v/cost)}`,click:()=>setF('et',o.i)})),{color:C.grn,active:F.et,lw:180,minRows:12});
   {const ids=top(etC,0,0,12).map(o=>o.i);XC.chEt=()=>xO('التكلفة حسب نوع المعدة — الأنواع الظاهرة في الرسم',i=>ids.includes(D.o[i][5]),[['ترتيب النوع',i=>ids.indexOf(D.o[i][5])+1]],(a,b)=>ids.indexOf(D.o[a][5])-ids.indexOf(D.o[b][5])||oCost[b]-oCost[a])}
   donut($('chSt'),D.ws.map((l,i)=>({l:'ورشة '+l,v:stC[i],c:[C.rose,C.blue][i],click:()=>setF('ws',i)})));
-  XC.chSt=()=>xO('التكلفة حسب الورشة — كل الأوامر',()=>true,[],(a,b)=>D.o[a][1]-D.o[b][1]||oCost[b]-oCost[a]);
+  XC.chSt=()=>xO('التكلفة حسب الورشة — كل الأوامر',()=>true,[],(a,b)=>D.o[a][1]-D.o[b][1]||oCost[b]-oCost[a],{col:5,label:'الورشة'});
   const eqs=Object.entries(eqA).map(([k,e])=>({k:+k,e}));
   hbar($('chEqC'),eqs.sort((p,q)=>q.e[4]-p.e[4]).slice(0,10).map(({k,e})=>({l:D.eq[k][0],v:[e[4]],tip:`<b>${D.eq[k][0]}</b><br>${D.et[D.eq[k][1]]}<br>التكلفة: <b>${fmt(e[4])}</b> ريال<br>عدد أوامر الصيانة: ${e[0]}`})),{color:C.red,lw:220,minRows:10});
   {const ids=eqs.slice().sort((p,q)=>q.e[4]-p.e[4]).slice(0,10).map(o=>o.k);XC.chEqC=()=>xL('أعلى 10 معدات تكلفة — كل قطع الغيار المصروفة عليها',l=>ids.includes(D.o[l[0]][6]),[['ترتيب المعدة',l=>ids.indexOf(D.o[l[0]][6])+1]],(a,b)=>ids.indexOf(D.o[a[0]][6])-ids.indexOf(D.o[b[0]][6])||(D.o[a[0]][9]<D.o[b[0]][9]?-1:1))}
