@@ -366,9 +366,6 @@ header{flex-direction:column;align-items:stretch;gap:10px}
   <div class="card c3" style="--c:var(--grn)"><h3 id="avT">أيام المعدات في الورشة</h3><div class="sub" id="avS"></div><div id="avBox"></div></div>
 </div>
 
-<div class="sec">التكلفة حسب نوع المعدة <span>كل أنواع المعدات داخل الفلاتر — من الأقل تكلفة (يسار) إلى الأعلى (يمين)، واضغط على أي نوع لتطبيقه كفلتر</span></div>
-<div class="card" style="--c:var(--grn);margin-bottom:14px"><h3>تكلفة كل أنواع المعدات</h3><div class="sub" id="etAllSub"></div><div dir="ltr" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><canvas id="chEtAll" height="440" style="min-width:900px;display:block"></canvas></div></div>
-
 <div class="sec">التفاصيل</div>
 <div class="grid">
   <div class="card c12" style="--c:var(--grn)">
@@ -911,7 +908,7 @@ function render(){
     <div class="pvB"><span class="pvN">بدون وقائية</span><div class="pvT"><div style="width:${(b/m*100).toFixed(1)}%;background:#94a3b8"></div></div><b style="color:#475569">${f(b)}</b></div></div>`}).join('');
   $('pvNote').textContent=rF>nF?'المعدات المنتظمة وقائياً أعطالها أكثر، وهذا غالباً لأنها الأكثر تشغيلاً فتدخل الورشة أكثر في الحالتين، وليس لأن الوقائية بلا فائدة. لا يمكن الحكم على أثر الوقائية بعدالة بدون ساعات التشغيل لكل معدة؛ عند إضافتها تتحول المقارنة إلى أعطال لكل 1000 ساعة تشغيل.':'المعدات المنتظمة وقائياً أعطالها وتكلفتها أقل من غير المنتظمة داخل نفس الأنواع، وهذا مؤشر على جدوى الوقائية. للتأكيد يُفضّل ربطها بساعات التشغيل.';
   drawSankey();
-  drawEtAll();
+
   drawNew3(mask);
   // hero
   // YoY window: months of the latest year inside the selected range (up to last month with cost) vs same months a year earlier
